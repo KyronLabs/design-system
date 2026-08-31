@@ -1,0 +1,5 @@
+
+# Dart / Flutter package build output
+flutter/.dart_tool/
+flutter/build/
+flutter/.packages
