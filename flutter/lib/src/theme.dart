@@ -8,42 +8,42 @@ class KyronTheme {
   // ===========================================================================
   // COLOR SYSTEM
   // ===========================================================================
-  
+
   /// Color Ramps from Bluesky ALF
   /// Each ramp has 13 steps (0-1000) with inversion for dark themes
-  
+
   // Contrast Ramp (backgrounds, text, borders)
   static const contrast = {
-    0: Color(0xFFFFFFFF),   // Lightest (light bg)
+    0: Color(0xFFFFFFFF), // Lightest (light bg)
     50: Color(0xFFF7F7F7),
-    100: Color(0xFFE8E8E8),  // Hairline dividers
-    200: Color(0xFFD9D9D9),  // Stronger borders
-    300: Color(0xFFC9C9C9),  // Input borders
-    400: Color(0xFFB0B0B0),  // Tertiary text, timestamps
-    500: Color(0xFF999999),  // Secondary text
+    100: Color(0xFFE8E8E8), // Hairline dividers
+    200: Color(0xFFD9D9D9), // Stronger borders
+    300: Color(0xFFC9C9C9), // Input borders
+    400: Color(0xFFB0B0B0), // Tertiary text, timestamps
+    500: Color(0xFF999999), // Secondary text
     600: Color(0xFF737373),
-    700: Color(0xFF5C5C5C),  // Body text
+    700: Color(0xFF5C5C5C), // Body text
     800: Color(0xFF3A3A3A),
     900: Color(0xFF262626),
     1000: Color(0xFF000000), // Darkest (light text)
   };
-  
+
   // Primary Ramp (accent colors)
   static const primary = {
     0: Color(0xFFE6F0FF),
     50: Color(0xFFCCE0FF),
     100: Color(0xFFB3D1FF),
-    200: Color(0xFF99C2FF),  // Disabled state
+    200: Color(0xFF99C2FF), // Disabled state
     300: Color(0xFF80B3FF),
-    400: Color(0xFF66A4FF),  // Hover state (dark theme)
-    500: Color(0xFF006AFF),  // DEFAULT ACCENT
-    600: Color(0xFF005BCC),  // Pressed state (light theme)
-    700: Color(0xFF004D99),  // Disabled state (dark theme)
+    400: Color(0xFF66A4FF), // Hover state (dark theme)
+    500: Color(0xFF006AFF), // DEFAULT ACCENT
+    600: Color(0xFF005BCC), // Pressed state (light theme)
+    700: Color(0xFF004D99), // Disabled state (dark theme)
     800: Color(0xFF003F80),
     900: Color(0xFF003366),
     1000: Color(0xFF00264D),
   };
-  
+
   // Positive Ramp (success states)
   static const positive = {
     0: Color(0xFFE6FFF0),
@@ -52,14 +52,14 @@ class KyronTheme {
     200: Color(0xFF99FFC2),
     300: Color(0xFF80FFB3),
     400: Color(0xFF66FFA4),
-    500: Color(0xFF4CD4B0),  // successAqua
+    500: Color(0xFF4CD4B0), // successAqua
     600: Color(0xFF42B896),
     700: Color(0xFF389C7C),
     800: Color(0xFF2E8062),
     900: Color(0xFF246449),
     1000: Color(0xFF1A4830),
   };
-  
+
   // Negative Ramp (error states)
   static const negative = {
     0: Color(0xFFFFE6E6),
@@ -69,36 +69,36 @@ class KyronTheme {
     300: Color(0xFFFF8080),
     400: Color(0xFFFF6666),
     500: Color(0xFFFF4C4C),
-    600: Color(0xFFFF6582),  // errorPink
+    600: Color(0xFFFF6582), // errorPink
     700: Color(0xFFCC3D3D),
     800: Color(0xFF992E2E),
     900: Color(0xFF661F1F),
     1000: Color(0xFF331010),
   };
-  
+
   // ===========================================================================
   // DIM THEME COLORS (Subdued palette)
   // ===========================================================================
-  
+
   static const dimContrast = {
-    0: Color(0xFF151D28),   // Background
+    0: Color(0xFF151D28), // Background
     50: Color(0xFF1E2A38),
-    100: Color(0xFF2A3848),  // Hairline dividers
+    100: Color(0xFF2A3848), // Hairline dividers
     200: Color(0xFF384858),
     300: Color(0xFF485868),
-    400: Color(0xFF607080),  // Tertiary text
+    400: Color(0xFF607080), // Tertiary text
     500: Color(0xFF788898),
     600: Color(0xFF90A0B0),
-    700: Color(0xFFA8B8C8),  // Body text
+    700: Color(0xFFA8B8C8), // Body text
     800: Color(0xFFC0D0D8),
     900: Color(0xFFD8E8F0),
     1000: Color(0xFFF0F8FF), // Primary text
   };
-  
+
   // ===========================================================================
   // SEMANTIC COLORS
   // ===========================================================================
-  
+
   // Light Theme Colors
   static const lightBackground = Color(0xFFFFFFFF);
   static const lightBackgroundStart = Color(0xFFFFFFFF);
@@ -106,49 +106,49 @@ class KyronTheme {
   static const lightSurface = Color(0xFFF8FAFC);
   static const lightTextPrimary = Color(0xFF1A202C);
   static const lightTextSecondary = Color(0xFF718096);
-  
+
   // Dark Theme Colors
   static const darkBackground = Color(0xFF0D0D0F);
   static const darkSurface = Color(0xFF1A1A1D);
   static const darkTextPrimary = Color(0xFFE5EBF5);
   static const darkTextSecondary = Color(0xFF7E8A9A);
-  
+
   // Shared Colors
   static const accent = Color(0xFF4C8FFF);
   static const errorPink = Color(0xFFFF6582);
   static const successAqua = Color(0xFF4CD4B0);
-  
+
   // Pill backgrounds
   static const darkPillBg = Color(0xFF1F1F23);
   static const lightPillBg = Color(0xFFF7F7F7);
-  
+
   // ===========================================================================
   // TYPOGRAPHY
   // ===========================================================================
-  
+
   static const _fontFamily = 'Inter';
-  
+
   // Font Sizes (from Bluesky ALF - 1.125 modular scale from 15px base)
   static const fontSize0 = 9.4;
   static const fontSize1 = 11.3;
   static const fontSize2 = 13.1;
-  static const fontSize3 = 15.0;  // Base
+  static const fontSize3 = 15.0; // Base
   static const fontSize4 = 16.9;
   static const fontSize5 = 18.8;
   static const fontSize6 = 20.6;
   static const fontSize7 = 24.3;
   static const fontSize8 = 30.0;
   static const fontSize9 = 37.5;
-  
+
   // Line Heights
   static const lineHeightTight = 1.15;
   static const lineHeightSnug = 1.3;
   static const lineHeightRelaxed = 1.5;
-  
+
   // ===========================================================================
   // SPACING
   // ===========================================================================
-  
+
   static const space2 = 2.0;
   static const space4 = 4.0;
   static const space8 = 8.0;
@@ -159,37 +159,37 @@ class KyronTheme {
   static const space28 = 28.0;
   static const space32 = 32.0;
   static const space40 = 40.0;
-  
+
   // ===========================================================================
   // BORDER RADIUS
   // ===========================================================================
-  
+
   static const radius2 = 2.0;
   static const radius4 = 4.0;
   static const radius8 = 8.0;
-  static const radius12 = 12.0;  // radius.md
+  static const radius12 = 12.0; // radius.md
   static const radius16 = 16.0;
-  static const radius20 = 20.0;  // Bottom sheet radius
+  static const radius20 = 20.0; // Bottom sheet radius
   static const radiusFull = 999.0; // Pill shape
-  
+
   // Named radii for clarity
   static const radiusSm = radius8;
   static const radiusMd = radius12;
   static const radiusLg = radius16;
-  
+
   // ===========================================================================
   // MOTION
   // ===========================================================================
-  
-  static const motionMicro = Duration(milliseconds: 90);   // Press states
-  static const motionFast = Duration(milliseconds: 180);  // Sheets closing
+
+  static const motionMicro = Duration(milliseconds: 90); // Press states
+  static const motionFast = Duration(milliseconds: 180); // Sheets closing
   static const motionNormal = Duration(milliseconds: 260); // Page pushes
-  static const motionSlow = Duration(milliseconds: 420);  // Hero animations
-  
+  static const motionSlow = Duration(milliseconds: 420); // Hero animations
+
   // ===========================================================================
   // THEME DEFINITIONS
   // ===========================================================================
-  
+
   /// Light Theme
   static ThemeData get lightTheme {
     return ThemeData.light().copyWith(
@@ -203,8 +203,6 @@ class KyronTheme {
         onSecondary: Colors.white,
         surface: lightSurface,
         onSurface: lightTextPrimary,
-        background: lightBackgroundStart,
-        onBackground: lightTextPrimary,
         error: errorPink,
         onError: Colors.white,
         primaryContainer: lightPillBg,
@@ -215,13 +213,15 @@ class KyronTheme {
         fillColor: lightSurface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius12),
-          borderSide: BorderSide(color: lightTextSecondary.withOpacity(0.2)),
+          borderSide:
+              BorderSide(color: lightTextSecondary.withValues(alpha: 0.2)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius12),
           borderSide: const BorderSide(color: accent, width: 1.4),
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         hintStyle: const TextStyle(color: lightTextSecondary),
       ),
       appBarTheme: const AppBarTheme(
@@ -253,7 +253,7 @@ class KyronTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size.fromHeight(48),
-          side: BorderSide(color: accent.withOpacity(0.24)),
+          side: BorderSide(color: accent.withValues(alpha: 0.24)),
           foregroundColor: accent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radiusFull),
@@ -273,7 +273,7 @@ class KyronTheme {
           splashFactory: NoSplash.splashFactory,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0, // Flat interface
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
@@ -281,7 +281,7 @@ class KyronTheme {
         ),
       ),
       dividerTheme: DividerThemeData(
-        color: lightTextSecondary.withOpacity(0.2),
+        color: lightTextSecondary.withValues(alpha: 0.2),
         thickness: 1,
         space: 1,
       ),
@@ -295,7 +295,7 @@ class KyronTheme {
       ),
     );
   }
-  
+
   /// Dark Theme
   static ThemeData get darkTheme {
     return ThemeData.dark().copyWith(
@@ -309,8 +309,6 @@ class KyronTheme {
         onSecondary: Colors.white,
         surface: darkSurface,
         onSurface: darkTextPrimary,
-        background: darkBackground,
-        onBackground: darkTextPrimary,
         error: errorPink,
         onError: Colors.white,
         primaryContainer: darkPillBg,
@@ -323,7 +321,8 @@ class KyronTheme {
           borderRadius: BorderRadius.circular(radius12),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         hintStyle: const TextStyle(color: darkTextSecondary),
       ),
       appBarTheme: const AppBarTheme(
@@ -355,7 +354,7 @@ class KyronTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size.fromHeight(48),
-          side: BorderSide(color: accent.withOpacity(0.24)),
+          side: BorderSide(color: accent.withValues(alpha: 0.24)),
           foregroundColor: accent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radiusFull),
@@ -375,7 +374,7 @@ class KyronTheme {
           splashFactory: NoSplash.splashFactory,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
         margin: EdgeInsets.zero,
         color: darkSurface,
@@ -384,7 +383,7 @@ class KyronTheme {
         ),
       ),
       dividerTheme: DividerThemeData(
-        color: darkTextSecondary.withOpacity(0.2),
+        color: darkTextSecondary.withValues(alpha: 0.2),
         thickness: 1,
         space: 1,
       ),
@@ -398,7 +397,7 @@ class KyronTheme {
       ),
     );
   }
-  
+
   /// Dim Theme (Default Dark)
   static ThemeData get dimTheme {
     return ThemeData.dark().copyWith(
@@ -412,8 +411,6 @@ class KyronTheme {
         onSecondary: Colors.white,
         surface: dimContrast[50]!,
         onSurface: dimContrast[1000]!,
-        background: dimContrast[0]!,
-        onBackground: dimContrast[1000]!,
         error: errorPink,
         onError: Colors.white,
         primaryContainer: dimContrast[50]!,
@@ -426,7 +423,8 @@ class KyronTheme {
           borderRadius: BorderRadius.circular(radius12),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         hintStyle: TextStyle(color: dimContrast[700]!),
       ),
       appBarTheme: AppBarTheme(
@@ -455,7 +453,7 @@ class KyronTheme {
           splashFactory: NoSplash.splashFactory,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
         margin: EdgeInsets.zero,
         color: dimContrast[50]!,
@@ -464,7 +462,7 @@ class KyronTheme {
         ),
       ),
       dividerTheme: DividerThemeData(
-        color: dimContrast[100]!.withOpacity(0.3),
+        color: dimContrast[100]!.withValues(alpha: 0.3),
         thickness: 1,
         space: 1,
       ),
@@ -478,11 +476,11 @@ class KyronTheme {
       ),
     );
   }
-  
+
   // ===========================================================================
   // TEXT THEME
   // ===========================================================================
-  
+
   static TextTheme _baseTextTheme(Color primary, Color secondary) {
     return TextTheme(
       displayLarge: TextStyle(
@@ -592,7 +590,7 @@ class KyronTheme {
       ),
     ).apply(fontFamily: _fontFamily);
   }
-  
+
   // ===========================================================================
   // UTILITY EXTENSIONS
   // ===========================================================================
@@ -600,20 +598,17 @@ class KyronTheme {
 
 // Extension for easy access to theme colors
 extension ThemeColors on BuildContext {
-  Color get surfaceColor =>
-      Theme.of(this).brightness == Brightness.dark
-          ? KyronTheme.darkSurface
-          : KyronTheme.lightSurface;
+  Color get surfaceColor => Theme.of(this).brightness == Brightness.dark
+      ? KyronTheme.darkSurface
+      : KyronTheme.lightSurface;
 
-  Color get onSurfaceColor =>
-      Theme.of(this).brightness == Brightness.dark
-          ? KyronTheme.darkTextPrimary
-          : KyronTheme.lightTextPrimary;
+  Color get onSurfaceColor => Theme.of(this).brightness == Brightness.dark
+      ? KyronTheme.darkTextPrimary
+      : KyronTheme.lightTextPrimary;
 
-  Color get pillBgColor =>
-      Theme.of(this).brightness == Brightness.dark
-          ? KyronTheme.darkPillBg
-          : KyronTheme.lightPillBg;
+  Color get pillBgColor => Theme.of(this).brightness == Brightness.dark
+      ? KyronTheme.darkPillBg
+      : KyronTheme.lightPillBg;
 
   Color get accentColor => KyronTheme.accent;
 
@@ -631,8 +626,6 @@ extension Spacing on num {
   EdgeInsets get vPad => EdgeInsets.symmetric(vertical: toDouble());
 }
 
-// Extension for radius
-extension Radius on num {
-  BorderRadius get radius => BorderRadius.all(Radius.circular(toDouble()));
-  Radius get r => Radius.circular(toDouble());
-}
+// Radius helpers live in tokens.dart as RadiusExtensions. They were declared
+// here too, as `extension Radius on num`, which shadowed Flutter's own Radius
+// class throughout this file and broke every Radius.circular in it.
