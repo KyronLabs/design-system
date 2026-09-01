@@ -208,21 +208,9 @@ class KyronTheme {
         primaryContainer: lightPillBg,
       ),
       textTheme: _baseTextTheme(lightTextPrimary, lightTextSecondary),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: lightSurface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius12),
-          borderSide:
-              BorderSide(color: lightTextSecondary.withValues(alpha: 0.2)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius12),
-          borderSide: const BorderSide(color: accent, width: 1.4),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        hintStyle: const TextStyle(color: lightTextSecondary),
+      inputDecorationTheme: _inputTheme(
+        fill: lightPillBg,
+        hint: lightTextSecondary,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
@@ -314,16 +302,9 @@ class KyronTheme {
         primaryContainer: darkPillBg,
       ),
       textTheme: _baseTextTheme(darkTextPrimary, darkTextSecondary),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: const Color(0xFF111114),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius12),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        hintStyle: const TextStyle(color: darkTextSecondary),
+      inputDecorationTheme: _inputTheme(
+        fill: const Color(0xFF111114),
+        hint: darkTextSecondary,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
@@ -416,16 +397,9 @@ class KyronTheme {
         primaryContainer: dimContrast[50]!,
       ),
       textTheme: _baseTextTheme(dimContrast[1000]!, dimContrast[700]!),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: dimContrast[50]!,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius12),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        hintStyle: TextStyle(color: dimContrast[700]!),
+      inputDecorationTheme: _inputTheme(
+        fill: dimContrast[50]!,
+        hint: dimContrast[700]!,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
@@ -589,6 +563,53 @@ class KyronTheme {
         height: lineHeightSnug,
       ),
     ).apply(fontFamily: _fontFamily);
+  }
+
+  /// The look of every text field in the ecosystem.
+  ///
+  /// Written once because the three themes had three copies of it that had
+  /// already drifted: the light one carried a visible border and the other two
+  /// did not. All three used 16 logical pixels of vertical padding, which put
+  /// a 56-pixel-tall box around a single line of text -- the "bulky" part.
+  ///
+  /// Filled and borderless at rest, with the outline appearing only on focus.
+  /// A resting outline plus a fill draws the same edge twice.
+  static InputDecorationTheme _inputTheme({
+    required Color fill,
+    required Color hint,
+  }) {
+    return InputDecorationTheme(
+      filled: true,
+      fillColor: fill,
+      isDense: true,
+      // 12 vertical rather than 16: a single-line field is 44 tall, which is
+      // still a comfortable touch target and no longer looms over the text.
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(radius12),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(radius12),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(radius12),
+        borderSide: const BorderSide(color: accent, width: 1.4),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(radius12),
+        borderSide: const BorderSide(color: errorPink),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(radius12),
+        borderSide: const BorderSide(color: errorPink, width: 1.4),
+      ),
+      hintStyle: TextStyle(color: hint, fontWeight: FontWeight.w400),
+      // Off by default. A counter under every field is noise on the ones that
+      // are nowhere near their limit; a screen that wants one says so.
+      counterStyle: TextStyle(color: hint, fontSize: 11),
+    );
   }
 
   // ===========================================================================
