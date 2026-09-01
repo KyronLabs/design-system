@@ -582,9 +582,16 @@ class KyronTheme {
       filled: true,
       fillColor: fill,
       isDense: true,
-      // 12 vertical rather than 16: a single-line field is 44 tall, which is
-      // still a comfortable touch target and no longer looms over the text.
-      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+      // A single-line field lands at 40 tall -- the same height as the app's
+      // buttons, so a field and a button beside each other line up. It was
+      // 16/16 with isDense unset, which is Material's 56, and read as a slab.
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+      // Labels and hints at the size of the text they sit above, rather than
+      // Material's default 16 -- which was larger than the body text in most
+      // of the app and made every form look shouted.
+      labelStyle: TextStyle(color: hint, fontSize: 14),
+      floatingLabelStyle: const TextStyle(color: accent, fontSize: 13),
+      floatingLabelBehavior: FloatingLabelBehavior.auto,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(radius12),
         borderSide: BorderSide.none,
@@ -605,7 +612,8 @@ class KyronTheme {
         borderRadius: BorderRadius.circular(radius12),
         borderSide: const BorderSide(color: errorPink, width: 1.4),
       ),
-      hintStyle: TextStyle(color: hint, fontWeight: FontWeight.w400),
+      hintStyle:
+          TextStyle(color: hint, fontSize: 14, fontWeight: FontWeight.w400),
       // Off by default. A counter under every field is noise on the ones that
       // are nowhere near their limit; a screen that wants one says so.
       counterStyle: TextStyle(color: hint, fontSize: 11),
