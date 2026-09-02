@@ -574,6 +574,13 @@ class KyronTheme {
   ///
   /// Filled and borderless at rest, with the outline appearing only on focus.
   /// A resting outline plus a fill draws the same edge twice.
+  /// How tall a text field is, everywhere.
+  ///
+  /// Stated once so a screen that wants a field beside a button can line the
+  /// two up without guessing, and so no screen has to reach for its own
+  /// padding to look like the rest of the app.
+  static const double fieldHeight = 44;
+
   static InputDecorationTheme _inputTheme({
     required Color fill,
     required Color hint,
@@ -582,9 +589,14 @@ class KyronTheme {
       filled: true,
       fillColor: fill,
       isDense: true,
-      // A single-line field lands at 40 tall -- the same height as the app's
-      // buttons, so a field and a button beside each other line up. It was
-      // 16/16 with isDense unset, which is Material's 56, and read as a slab.
+      // Every field is the same height, whatever text size it carries.
+      //
+      // Padding alone does not settle it: a field at 16pt is taller than one
+      // at 14pt for the same padding, which is how the search box ended up
+      // being the one that looked right and everything else looked short. A
+      // floor on the box settles it once, and 44 is the size of a comfortable
+      // tap target -- the number Material and Apple both land on.
+      constraints: const BoxConstraints(minHeight: fieldHeight),
       contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
       // Labels and hints at the size of the text they sit above, rather than
       // Material's default 16 -- which was larger than the body text in most

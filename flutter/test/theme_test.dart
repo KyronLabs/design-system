@@ -62,6 +62,28 @@ void main() {
       );
     });
 
+    test('every text field is the same height', () {
+      // Padding alone does not settle this: a field carrying 16pt text is
+      // taller than one carrying 14pt for the same padding, which is how the
+      // search box became the only one that looked right. A floor on the box
+      // settles it whatever text a screen puts in it.
+      for (final theme in [
+        KyronTheme.lightTheme,
+        KyronTheme.darkTheme,
+        KyronTheme.dimTheme,
+      ]) {
+        expect(
+          theme.inputDecorationTheme.constraints?.minHeight,
+          KyronTheme.fieldHeight,
+        );
+      }
+    });
+
+    test('a field is a comfortable tap target', () {
+      // Both Material and Apple land on 44 for something you press.
+      expect(KyronTheme.fieldHeight, greaterThanOrEqualTo(44));
+    });
+
     test('buttons are pills', () {
       // "All buttons are fully rounded pills" -- radius.md.
       expect(RadiusTokens.radiusFull, 999.0);
