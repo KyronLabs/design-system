@@ -172,6 +172,15 @@ class KyronTheme {
   static const radius20 = 20.0; // Bottom sheet radius
   static const radiusFull = 999.0; // Pill shape
 
+  /// How tall a full-width button is.
+  ///
+  /// Was 48 on Elevated and Outlined while FilledButton kept Material's own
+  /// 40, so the same action was two different sizes depending on which class
+  /// a screen happened to reach for -- the settings screens looked lighter
+  /// than the sign-in screen for no reason anybody had chosen. One number
+  /// now, and every button theme below reads it.
+  static const buttonHeight = 40.0;
+
   // Named radii for clarity
   static const radiusSm = radius8;
   static const radiusMd = radius12;
@@ -222,9 +231,23 @@ class KyronTheme {
         ),
         iconTheme: IconThemeData(color: lightTextPrimary),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: const Size.fromHeight(buttonHeight),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusFull),
+          ),
+          textStyle: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
+          animationDuration: motionMicro,
+          splashFactory: NoSplash.splashFactory,
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(buttonHeight),
           backgroundColor: accent,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -240,7 +263,7 @@ class KyronTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(buttonHeight),
           side: BorderSide(color: accent.withValues(alpha: 0.24)),
           foregroundColor: accent,
           shape: RoundedRectangleBorder(
@@ -316,9 +339,23 @@ class KyronTheme {
         ),
         iconTheme: IconThemeData(color: darkTextPrimary),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: const Size.fromHeight(buttonHeight),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusFull),
+          ),
+          textStyle: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
+          animationDuration: motionMicro,
+          splashFactory: NoSplash.splashFactory,
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(buttonHeight),
           backgroundColor: accent,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -334,7 +371,7 @@ class KyronTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(buttonHeight),
           side: BorderSide(color: accent.withValues(alpha: 0.24)),
           foregroundColor: accent,
           shape: RoundedRectangleBorder(
@@ -411,9 +448,23 @@ class KyronTheme {
         ),
         iconTheme: IconThemeData(color: dimContrast[1000]!),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: const Size.fromHeight(buttonHeight),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusFull),
+          ),
+          textStyle: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
+          animationDuration: motionMicro,
+          splashFactory: NoSplash.splashFactory,
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(buttonHeight),
           backgroundColor: accent,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
