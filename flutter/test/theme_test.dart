@@ -88,5 +88,26 @@ void main() {
       // "All buttons are fully rounded pills" -- radius.md.
       expect(RadiusTokens.radiusFull, 999.0);
     });
+
+    test('an app bar title is set in Kyron\'s type', () {
+      // `textTheme` gets the family from `.apply(fontFamily:)`, but an
+      // AppBar's `titleTextStyle` does not merge into the text theme -- it
+      // *becomes* the DefaultTextStyle for the title. A style written here
+      // without a family silently drops it, and every AppBar title in every
+      // app using this theme is then drawn in whatever the platform hands
+      // back. It looked right on Android, where that happens to be Roboto.
+      for (final theme in [
+        KyronTheme.lightTheme,
+        KyronTheme.darkTheme,
+        KyronTheme.dimTheme,
+      ]) {
+        expect(
+          theme.appBarTheme.titleTextStyle?.fontFamily,
+          theme.textTheme.bodyMedium?.fontFamily,
+          reason: 'the bar and the body disagree about the type family',
+        );
+        expect(theme.appBarTheme.titleTextStyle?.fontFamily, isNotNull);
+      }
+    });
   });
 }

@@ -221,10 +221,17 @@ class KyronTheme {
         fill: lightPillBg,
         hint: lightTextSecondary,
       ),
+      // The family is spelled out here, and it has to be. `textTheme` gets it
+      // from `.apply(fontFamily:)` at the bottom of this file, but an AppBar's
+      // `titleTextStyle` does not merge into the text theme -- it *becomes*
+      // the DefaultTextStyle for the title. A style written without a family
+      // therefore drops it, and every AppBar title in the app was being drawn
+      // in whatever the platform handed back rather than in Kyron's type.
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleTextStyle: TextStyle(
+          fontFamily: _fontFamily,
           color: lightTextPrimary,
           fontSize: 18,
           fontWeight: FontWeight.w600,
@@ -333,6 +340,7 @@ class KyronTheme {
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleTextStyle: TextStyle(
+          fontFamily: _fontFamily,
           color: darkTextPrimary,
           fontSize: 18,
           fontWeight: FontWeight.w600,
@@ -442,6 +450,7 @@ class KyronTheme {
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleTextStyle: TextStyle(
+          fontFamily: _fontFamily,
           color: dimContrast[1000]!,
           fontSize: 18,
           fontWeight: FontWeight.w600,
