@@ -215,8 +215,25 @@ class KyronTheme {
         error: errorPink,
         onError: Colors.white,
         primaryContainer: lightPillBg,
+        onPrimaryContainer: lightTextPrimary,
       ),
       textTheme: _baseTextTheme(lightTextPrimary, lightTextSecondary),
+      // Spelled out rather than inherited. Material 3 draws a
+      // FloatingActionButton in `primaryContainer` on `onPrimaryContainer`,
+      // and this file set the first and not the second -- so the light
+      // theme's button came out a white glyph on a near-white disc,
+      // measured at 1.06:1. Kyron's accent with a white glyph is 3.4:1 and
+      // is what every other primary control here already is.
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: accent,
+        foregroundColor: Colors.white,
+        // The glyph is drawn by the caller, and Kyron's are outlined, so the
+        // disc carries the weight rather than a filled shape inside it.
+        elevation: 3,
+        focusElevation: 3,
+        hoverElevation: 4,
+        highlightElevation: 6,
+      ),
       inputDecorationTheme: _inputTheme(
         fill: lightPillBg,
         hint: lightTextSecondary,
@@ -330,8 +347,25 @@ class KyronTheme {
         error: errorPink,
         onError: Colors.white,
         primaryContainer: darkPillBg,
+        onPrimaryContainer: darkTextPrimary,
       ),
       textTheme: _baseTextTheme(darkTextPrimary, darkTextSecondary),
+      // Spelled out rather than inherited. Material 3 draws a
+      // FloatingActionButton in `primaryContainer` on `onPrimaryContainer`,
+      // and this file set the first and not the second -- so the light
+      // theme's button came out a white glyph on a near-white disc,
+      // measured at 1.06:1. Kyron's accent with a white glyph is 3.4:1 and
+      // is what every other primary control here already is.
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: accent,
+        foregroundColor: Colors.white,
+        // The glyph is drawn by the caller, and Kyron's are outlined, so the
+        // disc carries the weight rather than a filled shape inside it.
+        elevation: 3,
+        focusElevation: 3,
+        hoverElevation: 4,
+        highlightElevation: 6,
+      ),
       inputDecorationTheme: _inputTheme(
         fill: const Color(0xFF111114),
         hint: darkTextSecondary,
@@ -440,8 +474,25 @@ class KyronTheme {
         error: errorPink,
         onError: Colors.white,
         primaryContainer: dimContrast[50]!,
+        onPrimaryContainer: dimContrast[1000]!,
       ),
       textTheme: _baseTextTheme(dimContrast[1000]!, dimContrast[700]!),
+      // Spelled out rather than inherited. Material 3 draws a
+      // FloatingActionButton in `primaryContainer` on `onPrimaryContainer`,
+      // and this file set the first and not the second -- so the light
+      // theme's button came out a white glyph on a near-white disc,
+      // measured at 1.06:1. Kyron's accent with a white glyph is 3.4:1 and
+      // is what every other primary control here already is.
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: accent,
+        foregroundColor: Colors.white,
+        // The glyph is drawn by the caller, and Kyron's are outlined, so the
+        // disc carries the weight rather than a filled shape inside it.
+        elevation: 3,
+        focusElevation: 3,
+        hoverElevation: 4,
+        highlightElevation: 6,
+      ),
       inputDecorationTheme: _inputTheme(
         fill: dimContrast[50]!,
         hint: dimContrast[700]!,

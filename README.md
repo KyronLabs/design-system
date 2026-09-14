@@ -83,8 +83,10 @@ settles it.
 
 ## What is not here, and is worth knowing
 
-- **No CI.** Nothing runs `flutter test` on a push. The nine tests in
-  `flutter/test/` pass, and nothing checks that they still do.
+- ~~No CI.~~ `.github/workflows/ci.yml` formats, analyses and tests the
+  package on every push. It was added the day a `FloatingActionButton` shipped
+  as a white glyph on a near-white disc, at 1.06:1, because nothing here had
+  ever run.
 - **No machine-readable token export.** The tokens exist twice — as prose in
   `design-tokens/` and as Dart in `flutter/lib/src/tokens.dart` — with nothing
   holding the two together. A `tokens.json` is the obvious fix and the reason
