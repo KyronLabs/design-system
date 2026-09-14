@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kyron_design_system/kyron_design_system.dart';
@@ -8,6 +9,8 @@ import 'package:kyron_design_system/kyron_design_system.dart';
 /// package that is never built is documentation wearing a .dart extension, so
 /// this asserts the parts an application actually consumes.
 void main() {
+  _contrastTests();
+
   group('KyronTheme', () {
     test('builds all three themes', () {
       for (final theme in [
@@ -108,6 +111,59 @@ void main() {
         );
         expect(theme.appBarTheme.titleTextStyle?.fontFamily, isNotNull);
       }
+    });
+  });
+}
+
+/// Relative luminance, per WCAG 2.1.
+double _luminance(Color c) {
+  double channel(double v) =>
+      v <= 0.03928 ? v / 12.92 : math.pow((v + 0.055) / 1.055, 2.4).toDouble();
+  return 0.2126 * channel(c.r) + 0.7152 * channel(c.g) + 0.0722 * channel(c.b);
+}
+
+/// The WCAG contrast ratio between two opaque colours, 1.0 to 21.0.
+double _contrast(Color a, Color b) {
+  final la = _luminance(a);
+  final lb = _luminance(b);
+  final (hi, lo) = la > lb ? (la, lb) : (lb, la);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+void _contrastTests() {
+  group('every theme is legible', () {
+    final themes = {
+      'light': KyronTheme.lightTheme,
+      'dark': KyronTheme.darkTheme,
+      'dim': KyronTheme.dimTheme,
+    };
+
+    themes.forEach((name, theme) {
+      test('$name: the floating action button can be seen', () {
+        // This is not hypothetical. Material 3 draws a FAB in
+        // `primaryContainer` on `onPrimaryContainer`; this file set the
+        // first and left the second unset, which resolves to pure white --
+        // so the light theme shipped a white glyph on a #F7F7F7 disc, at
+        // 1.06:1. It was reported as "a white icon on a white background".
+        final fab = theme.floatingActionButtonTheme;
+        expect(fab.backgroundColor, isNotNull, reason: '$name has no FAB bg');
+        expect(fab.foregroundColor, isNotNull, reason: '$name has no FAB fg');
+
+        final ratio = _contrast(fab.backgroundColor!, fab.foregroundColor!);
+        // 3:1 is WCAG AA for a graphical object, which an icon is.
+        expect(ratio, greaterThanOrEqualTo(3.0),
+            reason: '$name FAB is ${ratio.toStringAsFixed(2)}:1');
+      });
+
+      test('$name: a container states its own foreground', () {
+        // An unset `on*` does not get derived; it comes back white. Setting
+        // one half of a pair is how this went wrong once already.
+        final s = theme.colorScheme;
+        final ratio = _contrast(s.primaryContainer, s.onPrimaryContainer);
+        expect(ratio, greaterThanOrEqualTo(4.5),
+            reason: '$name primaryContainer pair is '
+                '${ratio.toStringAsFixed(2)}:1');
+      });
     });
   });
 }
