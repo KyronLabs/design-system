@@ -1,0 +1,23 @@
+{
+  "name": "kyron-design-system",
+  "version": "1.0.0",
+  "description": "Kyron's design tokens. The Flutter package under flutter/ is how the phone app consumes these; this package is how a desktop application does.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KyronLabs/design-system.git"
+  },
+  "exports": {
+    "./tokens.css": "./desktop/tokens.css",
+    "./philosophy": "./desktop/philosophy.md",
+    "./components": "./desktop/components.md"
+  },
+  "files": [
+    "desktop/",
+    "design-tokens/",
+    "README.md"
+  ],
+  "sideEffects": [
+    "*.css"
+  ]
+}

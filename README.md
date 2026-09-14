@@ -15,6 +15,29 @@ copying it.
 
 ---
 
+## Two platforms
+
+Kyron runs on phones and on the desktop, and one set of rules does not fit
+both. The palette, the type scale and the contrast floors are shared without
+exception; targets, radii, density, motion defaults and the whole question of
+how a choice is presented are not.
+
+| | Phone | Desktop |
+|---|---|---|
+| Rules | [`frontend/philosophy.md`](frontend/philosophy.md) | [`desktop/philosophy.md`](desktop/philosophy.md) |
+| Components | [`frontend/components/buttons.md`](frontend/components/buttons.md) | [`desktop/components.md`](desktop/components.md) |
+| Consumed as | the Flutter package | [`desktop/tokens.css`](desktop/tokens.css) |
+| Target floor | 44 | 24 |
+| Button shape | full pill | 4px rectangle |
+| A choice of options | bottom sheet | shown in place, or a popover |
+| Default type | 15 | 13.1 |
+
+`flutter/test/desktop_css_test.dart` reads `desktop/tokens.css` and fails if
+any colour, size, spacing step or duration in it disagrees with the Dart, so
+the two forms of the same palette cannot drift apart.
+
+---
+
 ## What is here
 
 ### The Flutter package — `flutter/`

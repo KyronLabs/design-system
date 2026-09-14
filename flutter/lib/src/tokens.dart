@@ -190,7 +190,15 @@ class SemanticColors {
   static const int darkTextSecondary = 0xFF7E8A9A;
 
   // Shared
-  static const int accent = 0xFF4C8FFF;
+  /// The accent, and the same one `KyronTheme.accent` and `primary[500]` are.
+  ///
+  /// This was 0xFF4C8FFF while both of those were 0xFF006AFF -- a third copy,
+  /// exported to applications, carrying the value the other two were corrected
+  /// away from. Nothing inside this package reads it, which is why it survived
+  /// the correction: it is API for consumers, and a consumer reading it got
+  /// the colour that measures 3.14:1 on white instead of the one that
+  /// measures 4.66:1.
+  static const int accent = PrimaryRamp.step500;
   static const int errorPink = 0xFFFF6582;
   static const int successAqua = 0xFF4CD4B0;
 

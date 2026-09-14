@@ -1,4 +1,16 @@
-# Frontend Design Philosophy
+# Frontend Design Philosophy — for a phone
+
+> **This file is the mobile philosophy.** Nearly every rule in it is a rule
+> about a thumb: 44-pixel targets, bottom sheets because that is where a hand
+> is, haptics on touch-down, no hover because there is no cursor. It governs
+> the Kyron app on iOS and Android.
+>
+> A desktop application — the lens studio — has a pointer, a keyboard, a
+> window six times the area and eight panels open at once, and applying these
+> rules there produces a website that has been stretched. See
+> [`desktop/philosophy.md`](../desktop/philosophy.md) for the desktop half,
+> which says what carries over unchanged and what inverts.
+
 
 ## 🎨 Design Principles
 
