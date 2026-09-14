@@ -36,7 +36,7 @@ class KyronTheme {
     200: Color(0xFF99C2FF), // Disabled state
     300: Color(0xFF80B3FF),
     400: Color(0xFF66A4FF), // Hover state (dark theme)
-    500: Color(0xFF006AFF), // DEFAULT ACCENT
+    500: primary500, // DEFAULT ACCENT
     600: Color(0xFF005BCC), // Pressed state (light theme)
     700: Color(0xFF004D99), // Disabled state (dark theme)
     800: Color(0xFF003F80),
@@ -114,7 +114,24 @@ class KyronTheme {
   static const darkTextSecondary = Color(0xFF7E8A9A);
 
   // Shared Colors
-  static const accent = Color(0xFF4C8FFF);
+
+  /// The one definition of Kyron's accent. `primary[500]` is this, and so is
+  /// [accent]: a map lookup is not a constant expression, so the two cannot
+  /// simply reference each other, and a second literal is how they drifted.
+  static const primary500 = Color(0xFF006AFF);
+
+  /// The accent, which is `primary[500]` and always was.
+  ///
+  /// It used to be a second colour written out longhand -- `0xFF4C8FFF` --
+  /// sitting beside a ramp whose 500 step is labelled DEFAULT ACCENT and was
+  /// referenced nowhere. Twenty-six controls took the longhand one, so every
+  /// accent pixel in Kyron was a colour the design system does not document,
+  /// and `design-tokens/colors.md` named `#006AFF` throughout.
+  ///
+  /// It is also the more legible of the two. Against white: 4.66:1 for this,
+  /// 3.14:1 for what shipped -- the difference between passing WCAG AA for
+  /// text and not.
+  static const accent = primary500;
   static const errorPink = Color(0xFFFF6582);
   static const successAqua = Color(0xFF4CD4B0);
 
@@ -202,6 +219,14 @@ class KyronTheme {
   /// Light Theme
   static ThemeData get lightTheme {
     return ThemeData.light().copyWith(
+      // Ripples are off everywhere, not just on the buttons whose themes
+      // set it below. The philosophy names `splashFactory: NoSplash` as a
+      // rule of the interface, but it was only ever applied to the four
+      // button themes -- so every bare InkWell in the app still spread a
+      // Material ink ring, which is the one press effect Kyron does not
+      // use. Setting it on the theme itself is what makes the rule hold for
+      // widgets nobody has written yet.
+      splashFactory: NoSplash.splashFactory,
       brightness: Brightness.light,
       scaffoldBackgroundColor: lightBackgroundStart,
       canvasColor: lightSurface,
@@ -334,6 +359,14 @@ class KyronTheme {
   /// Dark Theme
   static ThemeData get darkTheme {
     return ThemeData.dark().copyWith(
+      // Ripples are off everywhere, not just on the buttons whose themes
+      // set it below. The philosophy names `splashFactory: NoSplash` as a
+      // rule of the interface, but it was only ever applied to the four
+      // button themes -- so every bare InkWell in the app still spread a
+      // Material ink ring, which is the one press effect Kyron does not
+      // use. Setting it on the theme itself is what makes the rule hold for
+      // widgets nobody has written yet.
+      splashFactory: NoSplash.splashFactory,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: darkBackground,
       canvasColor: darkSurface,
@@ -461,6 +494,14 @@ class KyronTheme {
   /// Dim Theme (Default Dark)
   static ThemeData get dimTheme {
     return ThemeData.dark().copyWith(
+      // Ripples are off everywhere, not just on the buttons whose themes
+      // set it below. The philosophy names `splashFactory: NoSplash` as a
+      // rule of the interface, but it was only ever applied to the four
+      // button themes -- so every bare InkWell in the app still spread a
+      // Material ink ring, which is the one press effect Kyron does not
+      // use. Setting it on the theme itself is what makes the rule hold for
+      // widgets nobody has written yet.
+      splashFactory: NoSplash.splashFactory,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: dimContrast[0]!,
       canvasColor: dimContrast[50]!,

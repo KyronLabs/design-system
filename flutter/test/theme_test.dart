@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kyron_design_system/kyron_design_system.dart';
@@ -10,6 +11,7 @@ import 'package:kyron_design_system/kyron_design_system.dart';
 /// this asserts the parts an application actually consumes.
 void main() {
   _contrastTests();
+  _rippleTests();
 
   group('KyronTheme', () {
     test('builds all three themes', () {
@@ -155,6 +157,24 @@ void _contrastTests() {
             reason: '$name FAB is ${ratio.toStringAsFixed(2)}:1');
       });
 
+      test('$name: the accent is the documented token', () {
+        // The ramp's 500 step is labelled DEFAULT ACCENT and was referenced
+        // nowhere; a second literal, #4C8FFF, sat beside it and every one of
+        // the twenty-six accent-coloured controls took that one instead. So
+        // the design system documented #006AFF and shipped something else.
+        expect(KyronTheme.accent, KyronTheme.primary[500]);
+        expect(KyronTheme.accent, const Color(0xFF006AFF));
+        expect(theme.colorScheme.primary, KyronTheme.accent);
+        expect(theme.colorScheme.secondary, KyronTheme.accent);
+      });
+
+      test('$name: accent-on-white is readable', () {
+        // 4.66:1 for the documented token against 3.14:1 for what shipped --
+        // the difference between passing WCAG AA for text and not.
+        expect(_contrast(KyronTheme.accent, const Color(0xFFFFFFFF)),
+            greaterThanOrEqualTo(4.5));
+      });
+
       test('$name: a container states its own foreground', () {
         // An unset `on*` does not get derived; it comes back white. Setting
         // one half of a pair is how this went wrong once already.
@@ -163,6 +183,70 @@ void _contrastTests() {
         expect(ratio, greaterThanOrEqualTo(4.5),
             reason: '$name primaryContainer pair is '
                 '${ratio.toStringAsFixed(2)}:1');
+      });
+    });
+  });
+}
+
+void _rippleTests() {
+  group('nothing ripples', () {
+    final themes = {
+      'light': KyronTheme.lightTheme,
+      'dark': KyronTheme.darkTheme,
+      'dim': KyronTheme.dimTheme,
+    };
+
+    themes.forEach((name, theme) {
+      test('$name: the theme turns ink splashes off', () {
+        // Four button themes set this and the theme itself did not, so the
+        // rule held only for widgets that happened to be buttons. Every bare
+        // InkWell fell through to Material 3's default, _InkSparkleFactory.
+        expect(theme.splashFactory, same(NoSplash.splashFactory),
+            reason: '$name still uses ${theme.splashFactory.runtimeType}');
+      });
+
+      testWidgets('$name: pressing a bare InkWell draws no ink',
+          (tester) async {
+        await tester.pumpWidget(MaterialApp(
+          theme: theme,
+          home: Scaffold(
+            body: Center(
+              child: Material(
+                color: const Color(0xFF808080),
+                child: InkWell(
+                  onTap: () {},
+                  // The press highlight is a separate effect that Kyron does
+                  // keep; off here so that what is left to count is the ink.
+                  highlightColor: const Color(0x00000000),
+                  splashColor: const Color(0xFFFF0000),
+                  child: const SizedBox(width: 200, height: 80),
+                ),
+              ),
+            ),
+          ),
+        ));
+        await tester.pumpAndSettle();
+
+        final press =
+            await tester.startGesture(tester.getCenter(find.byType(InkWell)));
+        // Part-way into a splash: wide enough to be on the canvas, not yet
+        // faded back out.
+        await tester.pump(const Duration(milliseconds: 200));
+
+        // Measured against every factory Flutter ships. With ink off the
+        // Material draws its own background and nothing else: one rect, no
+        // circle. InkSplash and InkRipple add a circle; InkSparkle -- the
+        // Material 3 default these themes used to fall through to -- draws
+        // through a shader, so it shows up as a second rect rather than a
+        // circle and a circle check alone would not have caught it.
+        final material = Material.of(tester.element(find.byType(InkWell)));
+        expect(material, paintsExactlyCountTimes(#drawRect, 1),
+            reason: '$name drew ink on press');
+        expect(material, paintsExactlyCountTimes(#drawCircle, 0),
+            reason: '$name rippled on press');
+
+        await press.up();
+        await tester.pumpAndSettle();
       });
     });
   });
