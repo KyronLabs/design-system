@@ -1,149 +1,111 @@
 # Kyron Design System
 
-## The Single Source of Truth for All Kyron Ecosystem Design
+Colour, type, spacing, radius, motion and haptics for Kyron — written down
+once, and shipped as a Flutter package so applications consume it rather than
+copying it.
 
-This repository contains **every system design philosophy** for the Kyron ecosystem — from system architecture to frontend design and brand identity. It serves as the comprehensive design system that unifies all Kyron products under a consistent, well-documented approach.
+> **What this file used to be.** It drew a directory tree of thirty-nine files.
+> Twenty-two of them did not exist — `tokens.json`, `shadows.md`, `sheets.md`,
+> `inputs.md`, `cards.md`, `thread-connector.md`, every file under `patterns/`,
+> `layouts/` and `flutter/widgets/`, and the `guidelines/contribution.md` it
+> told contributors to read. It also sent developers to
+> `design-tokens/tokens.json` "for programmatic access". A README that lists
+> files nobody wrote costs a reader more than no README: they go looking, and
+> the absence reads as their mistake. This one lists what is here.
 
 ---
 
-## 📁 Repository Structure
+## What is here
+
+### The Flutter package — `flutter/`
+
+The part that runs. `flutter/pubspec.yaml` publishes `kyron_design_system`, which the
+Kyron app depends on by git ref.
 
 ```
-design-system/
-├── README.md                          # This file
-├── SUMMARY.md                         # Executive overview of all systems
-│
-├── architecture/                      # System Architecture
-│   ├── OVERVIEW.md                    # High-level architecture philosophy
-│   ├── microservices.md               # Service design patterns
-│   ├── data-flow.md                   # Data architecture & flows
-│   ├── security.md                    # Security architecture
-│   └── scalability.md                 # Scaling strategies
-│
-├── design-tokens/                     # Core Design Tokens (Bluesky ALF-based)
-│   ├── colors.md                      # Complete color system
-│   ├── typography.md                  # Font scales & weights
-│   ├── spacing.md                     # Space scale (2, 4, 8, 12, 16, 20, 24, 28, 32, 40)
-│   ├── radius.md                      # Border radius system
-│   ├── shadows.md                     # Elevation & shadows
-│   └── tokens.json                    # Machine-readable token export
-│
-├── frontend/                          # Frontend Design System
-│   ├── philosophy.md                  # Design principles & philosophy
-│   ├── components/                    # Component specifications
-│   │   ├── buttons.md                 # Button system (pills, sizes, states)
-│   │   ├── inputs.md                  # Input fields & forms
-│   │   ├── cards.md                   # Card designs
-│   │   ├── sheets.md                  # Bottom sheets & dialogs
-│   │   ├── navigation.md              # Navigation patterns
-│   │   └── thread-connector.md        # Thread reply connectors
-│   ├── layouts/                       # Layout patterns
-│   │   ├── grid.md                    # Grid systems
-│   │   ├── spacing.md                 # Layout spacing rules
-│   │   └── responsive.md              # Responsive design
-│   ├── haptics.md                     # Haptic feedback system
-│   ├── motion.md                      # Animation & motion
-│   └── accessibility.md               # Accessibility guidelines
-│
-├── brand/                             # Brand Identity
-│   ├── identity.md                    # Brand identity & voice
-│   ├── color-usage.md                 # Brand color applications
-│   ├── typography.md                  # Brand typography
-│   ├── iconography.md                 # Icon system (Iconsax)
-│   ├── assets.md                      # Asset management
-│   └── tone-voice.md                  # Brand tone & voice
-│
-├── patterns/                          # Design Patterns
-│   ├── interaction.md                 # Interaction patterns
-│   ├── feedback.md                    # User feedback patterns
-│   ├── empty-states.md                # Empty state designs
-│   ├── loading.md                     # Loading states
-│   └── error-handling.md              # Error patterns
-│
-├── flutter/                           # Flutter-Specific Implementation
-│   ├── theme.dart                     # Flutter theme implementation
-│   ├── tokens.dart                    # Dart token definitions
-│   ├── widgets/                       # Reusable widget patterns
-│   │   ├── pressable.dart             # Press interaction widget
-│   │   ├── sheet.dart                 # Bottom sheet widget
-│   │   └── thread_painter.dart        # Thread connector painter
-│   └── utils/                         # Flutter utilities
-│       ├── haptics.dart               # Haptic feedback utilities
-│       └── motion.dart                # Motion utilities
-│
-└── guidelines/                       # Cross-Cutting Guidelines
-    ├── performance.md                 # Performance guidelines
-    ├── testing.md                     # Testing standards
-    ├── code-style.md                  # Code style guide
-    └── contribution.md                # Contribution guidelines
+flutter/lib/kyron_design_system.dart   the export
+flutter/lib/src/tokens.dart            fifteen token classes
+flutter/lib/src/theme.dart             KyronTheme.lightTheme / .darkTheme
+flutter/test/theme_test.dart           nine tests
 ```
 
----
+```dart
+import 'package:kyron_design_system/kyron_design_system.dart';
 
-## 🎯 Design Philosophy
+MaterialApp(theme: KyronTheme.lightTheme, darkTheme: KyronTheme.darkTheme);
+```
 
-### Core Principles
+The token classes are `ContrastRamp`, `PrimaryRamp`, `PositiveRamp`,
+`NegativeRamp`, `DimContrastRamp`, `SemanticColors`, `TypographyTokens`,
+`SpacingTokens`, `RadiusTokens`, `MotionTokens`, `ButtonTokens`, `ButtonSize`,
+`ThreadTokens` and `HapticsTokens`.
 
-1. **Portability First**: Every design decision must support user-owned, portable identity and data
-2. **Performance Obsessed**: Social apps live or die by responsiveness — every interaction must feel instant
-3. **Consistency Over Customization**: Unified experience across iOS, Android, and Web
-4. **Accessibility by Default**: Design for everyone from the start
+This package exists because the Flutter client used to keep a hand-written
+theme of its own, which had drifted into a separate vocabulary — `background`
+where this says `darkBackground`, and nothing at all for the ALF ramps.
+Copying was the only mechanism available, so drift was the only possible
+outcome.
 
-### Bluesky ALF Foundation
+### The written system — sixteen documents
 
-This design system is heavily inspired by and compatible with **Bluesky's ALF (Application Layout Framework)**. The Omnia Wallet implementation proved the effectiveness of this system, and we extend it across the entire Kyron ecosystem.
+| | |
+|:--|:--|
+| `design-tokens/colors.md` | The four ramps — contrast, primary, positive, negative — 13–15 steps each |
+| `design-tokens/typography.md` | Fractional scale, 15px base, 1.125 modular |
+| `design-tokens/spacing.md` | 2, 4, 8, 12, 16, 20, 24, 28, 32, 40 |
+| `design-tokens/radius.md` | The radius scale, and which shape goes where |
+| `frontend/philosophy.md` | Why the interface looks the way it does |
+| `frontend/components/buttons.md` | Pill buttons: sizes, kinds, states |
+| `frontend/navigation.md` | Navigation and UX patterns |
+| `frontend/motion.md` | 90–420ms, scale-and-opacity press states |
+| `frontend/haptics.md` | Android-clamped impacts, rate-limited micro-haptics |
+| `brand/identity.md` | The brand, and its voice |
+| `brand/color-usage.md` | Where brand colour is allowed and where it is not |
+| `guidelines/accessibility.md` | Contrast, targets, semantics, text scale |
+| `guidelines/testing.md` | What a design change has to prove before it lands |
+| `architecture/OVERVIEW.md` | System architecture — see the note below |
+| `architecture/microservices.md` | Service design — see the note below |
+| `SUMMARY.md` | Executive overview of all of the above |
 
----
+### A design, not a description
 
-## 📚 Quick Navigation
+`architecture/` describes a **microservice** system: an API gateway, separate
+identity and media services, independent scaling and deployment.
 
-| Area | Description | Key Files |
-|------|-------------|-----------|
-| **Colors** | 4 ramp system (contrast, primary, positive, negative) with 13-15 steps each | `design-tokens/colors.md` |
-| **Typography** | Fractional font scale (15px base, 1.125 modular scale) | `design-tokens/typography.md` |
-| **Spacing** | 2, 4, 8, 12, 16, 20, 24, 28, 32, 40 scale | `design-tokens/spacing.md` |
-| **Components** | Pill buttons, hairline-separated interfaces, bottom sheets | `frontend/components/` |
-| **Haptics** | Android-clamped impacts, rate-limited micro-haptics | `frontend/haptics.md` |
-| **Motion** | Short durations (90-420ms), scale+opacity press states | `frontend/motion.md` |
-
----
-
-## 🚀 Getting Started
-
-### For Designers
-
-1. Read `SUMMARY.md` for the executive overview
-2. Explore `design-tokens/` for the core visual language
-3. Check `frontend/components/` for UI patterns
-4. Review `brand/` for identity guidelines
-
-### For Developers
-
-1. Use `flutter/` for direct Flutter implementation
-2. Reference `design-tokens/tokens.json` for programmatic access
-3. Follow patterns in `frontend/` for consistent implementation
-4. Check `guidelines/` for coding standards
-
----
-
-## 📞 Support & Contribution
-
-This is a living document. As the Kyron ecosystem evolves, so does this design system.
-
-- **Found a gap?** Open an issue or PR
-- **Need clarification?** Check existing docs or ask in Discord
-- **Want to contribute?** See `guidelines/contribution.md`
+**Kyron is not that today, deliberately.** It is one NestJS API over one
+Postgres — the kyron repository's own README says so in as many words, and the
+`identity/` and `media/` directories there are a Dockerfile each, for services
+nobody has written. Read `architecture/` as a target somebody may or may not
+still want, not as a map of what is running. Where the two disagree, the code
+settles it.
 
 ---
 
-## 🔗 Related Repositories
+## What is not here, and is worth knowing
 
-- [Kyron Main Repository](https://github.com/KyronLabs/kyron) - Core application code
-- [Kyron API](https://github.com/KyronLabs/kyron/tree/main/api) - Backend services
-- [Kyron App](https://github.com/KyronLabs/kyron/tree/main/app) - Flutter client
+- **No CI.** Nothing runs `flutter test` on a push. The nine tests in
+  `flutter/test/` pass, and nothing checks that they still do.
+- **No machine-readable token export.** The tokens exist twice — as prose in
+  `design-tokens/` and as Dart in `flutter/lib/src/tokens.dart` — with nothing
+  holding the two together. A `tokens.json` is the obvious fix and the reason
+  the old README promised one.
+- **`flutter/build/` and `flutter/.dart_tool/` are tracked in git.** Build
+  output, committed.
+- **Consumers pin a commit.** The Kyron app's `pubspec.lock` names a specific
+  git ref, so a change here does not reach the app until somebody bumps it.
+
+---
+
+## The rest of the ecosystem
+
+| | |
+|:--|:--|
+| [**kyron**](https://github.com/KyronLabs/kyron) | The app, the API and the web build |
+| [**kyron-lenses**](https://github.com/KyronLabs/kyron-lenses) | The published AR lens catalogue |
+| [**kyron-lens-studio**](https://github.com/KyronLabs/kyron-lens-studio) | The Windows tool for authoring lenses |
+| [**kyron-live**](https://github.com/KyronLabs/kyron-live) | Live video — the costed decision, before the code |
+| [**Kyron_Terms_and_Privacy**](https://github.com/KyronLabs/Kyron_Terms_and_Privacy) | The two legal pages the app links out to |
 
 ---
 
 *"Design is how it works, not just how it looks."*
-
-**Kyron Design System** — Built by [KyronLabs](https://github.com/KyronLabs)
