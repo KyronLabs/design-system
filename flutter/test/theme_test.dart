@@ -155,6 +155,24 @@ void _contrastTests() {
             reason: '$name FAB is ${ratio.toStringAsFixed(2)}:1');
       });
 
+      test('$name: the accent is the documented token', () {
+        // The ramp's 500 step is labelled DEFAULT ACCENT and was referenced
+        // nowhere; a second literal, #4C8FFF, sat beside it and every one of
+        // the twenty-six accent-coloured controls took that one instead. So
+        // the design system documented #006AFF and shipped something else.
+        expect(KyronTheme.accent, KyronTheme.primary[500]);
+        expect(KyronTheme.accent, const Color(0xFF006AFF));
+        expect(theme.colorScheme.primary, KyronTheme.accent);
+        expect(theme.colorScheme.secondary, KyronTheme.accent);
+      });
+
+      test('$name: accent-on-white is readable', () {
+        // 4.66:1 for the documented token against 3.14:1 for what shipped --
+        // the difference between passing WCAG AA for text and not.
+        expect(_contrast(KyronTheme.accent, const Color(0xFFFFFFFF)),
+            greaterThanOrEqualTo(4.5));
+      });
+
       test('$name: a container states its own foreground', () {
         // An unset `on*` does not get derived; it comes back white. Setting
         // one half of a pair is how this went wrong once already.
