@@ -219,6 +219,14 @@ class KyronTheme {
   /// Light Theme
   static ThemeData get lightTheme {
     return ThemeData.light().copyWith(
+      // Ripples are off everywhere, not just on the buttons whose themes
+      // set it below. The philosophy names `splashFactory: NoSplash` as a
+      // rule of the interface, but it was only ever applied to the four
+      // button themes -- so every bare InkWell in the app still spread a
+      // Material ink ring, which is the one press effect Kyron does not
+      // use. Setting it on the theme itself is what makes the rule hold for
+      // widgets nobody has written yet.
+      splashFactory: NoSplash.splashFactory,
       brightness: Brightness.light,
       scaffoldBackgroundColor: lightBackgroundStart,
       canvasColor: lightSurface,
@@ -351,6 +359,14 @@ class KyronTheme {
   /// Dark Theme
   static ThemeData get darkTheme {
     return ThemeData.dark().copyWith(
+      // Ripples are off everywhere, not just on the buttons whose themes
+      // set it below. The philosophy names `splashFactory: NoSplash` as a
+      // rule of the interface, but it was only ever applied to the four
+      // button themes -- so every bare InkWell in the app still spread a
+      // Material ink ring, which is the one press effect Kyron does not
+      // use. Setting it on the theme itself is what makes the rule hold for
+      // widgets nobody has written yet.
+      splashFactory: NoSplash.splashFactory,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: darkBackground,
       canvasColor: darkSurface,
@@ -478,6 +494,14 @@ class KyronTheme {
   /// Dim Theme (Default Dark)
   static ThemeData get dimTheme {
     return ThemeData.dark().copyWith(
+      // Ripples are off everywhere, not just on the buttons whose themes
+      // set it below. The philosophy names `splashFactory: NoSplash` as a
+      // rule of the interface, but it was only ever applied to the four
+      // button themes -- so every bare InkWell in the app still spread a
+      // Material ink ring, which is the one press effect Kyron does not
+      // use. Setting it on the theme itself is what makes the rule hold for
+      // widgets nobody has written yet.
+      splashFactory: NoSplash.splashFactory,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: dimContrast[0]!,
       canvasColor: dimContrast[50]!,
