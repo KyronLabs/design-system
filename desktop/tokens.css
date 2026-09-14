@@ -1,0 +1,233 @@
+/* desktop/tokens.css
+ *
+ * Kyron's tokens, for a desktop application.
+ *
+ * The Flutter package is how the phone app consumes these. A desktop app
+ * built on a web view has no way to read Dart, so this file is the same
+ * values in the form it can use -- and `flutter/test/desktop_css_test.dart`
+ * reads it and fails if any colour here disagrees with the Dart it came
+ * from. A second copy of a palette that nothing checks is how #4C8FFF ended
+ * up shipping in place of #006AFF for twenty-six controls.
+ *
+ * The ramps are shared with mobile without exception: a brand is not a
+ * platform. What differs is density, control size, radius, and which step of
+ * each scale is the default -- see desktop/philosophy.md for why each of
+ * those differs, and what it means for a component.
+ */
+
+:root {
+  /* --- Contrast ramp, light ------------------------------------------- */
+  --contrast-0: #ffffff;
+  --contrast-50: #f7f7f7;
+  --contrast-100: #e8e8e8;
+  --contrast-200: #d9d9d9;
+  --contrast-300: #c9c9c9;
+  --contrast-400: #b0b0b0;
+  --contrast-500: #999999;
+  --contrast-600: #737373;
+  --contrast-700: #5c5c5c;
+  --contrast-800: #3a3a3a;
+  --contrast-900: #262626;
+  --contrast-1000: #000000;
+
+  /* --- Primary ramp ---------------------------------------------------- */
+  --primary-0: #e6f0ff;
+  --primary-50: #cce0ff;
+  --primary-100: #b3d1ff;
+  --primary-200: #99c2ff;
+  --primary-300: #80b3ff;
+  --primary-400: #66a4ff;
+  --primary-500: #006aff;
+  --primary-600: #005bcc;
+  --primary-700: #004d99;
+  --primary-800: #003f80;
+  --primary-900: #003366;
+  --primary-1000: #00264d;
+
+  /* --- Positive and negative ------------------------------------------ */
+  --positive-500: #4cd4b0;
+  --positive-600: #42b896;
+  --negative-500: #ff4c4c;
+  --negative-600: #ff6582;
+  --negative-700: #cc3d3d;
+
+  /* --- Dim ramp, which is the dark theme ------------------------------ */
+  --dim-0: #151d28;
+  --dim-50: #1e2a38;
+  --dim-100: #2a3848;
+  --dim-200: #384858;
+  --dim-300: #485868;
+  --dim-400: #607080;
+  --dim-500: #788898;
+  --dim-600: #90a0b0;
+  --dim-700: #a8b8c8;
+  --dim-800: #c0d0d8;
+  --dim-900: #d8e8f0;
+  --dim-1000: #f0f8ff;
+
+  /* --- The accent, once ------------------------------------------------ */
+  --accent: var(--primary-500);
+  --accent-pressed: var(--primary-600);
+  --accent-disabled: var(--primary-200);
+
+  /* =====================================================================
+   * Density
+   *
+   * The same 2..40 scale mobile uses. What differs is which step a given
+   * thing reaches for: a list row on a phone is 12 or 16 of padding, the
+   * same row in a desktop panel is 4 or 8. One scale, a different default.
+   * ===================================================================== */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+
+  /* The two a desktop layout reaches for most. Named so a panel's padding
+     and a row's gap are one decision rather than forty. */
+  --pane-padding: var(--space-12);
+  --row-gap: var(--space-8);
+
+  /* =====================================================================
+   * Type
+   *
+   * The 1.125 modular scale from a 15px base, unchanged. Desktop's default
+   * is one step down: a pointer sits closer to a larger screen, and a tool
+   * that shows eight panels at once cannot set them all in phone type.
+   * ===================================================================== */
+  --font-0: 9.4px;
+  --font-1: 11.3px;
+  --font-2: 13.1px;
+  --font-3: 15px;
+  --font-4: 16.9px;
+  --font-5: 18.8px;
+  --font-6: 20.6px;
+  --font-7: 24.3px;
+  --font-8: 30px;
+  --font-9: 37.5px;
+
+  --font-ui: var(--font-2);        /* body of the interface */
+  --font-ui-small: var(--font-1);  /* captions, units, secondary */
+  --font-ui-title: var(--font-4);  /* a panel or dialog title */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Zero tracking, on every platform. */
+  --tracking: 0;
+
+  /* =====================================================================
+   * Radius
+   *
+   * Mobile's signature is the full pill. Desktop's is not: a pill toolbar
+   * button beside the square chrome of a window reads as a web page that
+   * wandered into an application. Controls are rectangles with a small
+   * radius; the pill is kept for what is genuinely a chip or a tag.
+   * ===================================================================== */
+  --radius-2: 2px;
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-full: 999px;
+
+  --radius-control: var(--radius-4);  /* buttons, inputs, select */
+  --radius-panel: var(--radius-8);    /* panels, cards, popovers */
+  --radius-dialog: var(--radius-12);
+
+  /* =====================================================================
+   * Control size
+   *
+   * 44 is the phone's floor, and it is a floor for a fingertip. A mouse
+   * lands within a pixel or two, so the floor is what a hand can reliably
+   * hit with a pointer while moving -- 24 -- and the default is larger than
+   * the floor because most controls are not on the edge of what is usable.
+   * ===================================================================== */
+  --control-min: 24px;
+  --control-height: 28px;
+  --control-height-large: 32px;
+  --control-padding-x: var(--space-12);
+
+  /* A hit area may be larger than what is drawn. Anything smaller than
+     --control-min gets padded out to it rather than drawn bigger. */
+
+  /* =====================================================================
+   * Motion
+   *
+   * The same 90/180/260/420, one step faster by default. A panel that takes
+   * 260ms to open is a considered transition on a phone and a stutter on a
+   * desktop, where the pointer is already somewhere else.
+   * ===================================================================== */
+  --motion-micro: 90ms;
+  --motion-fast: 180ms;
+  --motion-normal: 260ms;
+  --motion-slow: 420ms;
+
+  --motion-state: var(--motion-micro); /* hover, press, focus */
+  --motion-panel: var(--motion-fast);  /* popovers, panels, drawers */
+
+  /* =====================================================================
+   * Semantic roles, light
+   * ===================================================================== */
+  --bg: var(--contrast-0);
+  --surface: var(--contrast-50);
+  --surface-raised: var(--contrast-0);
+  --edge: var(--contrast-100);
+  --edge-strong: var(--contrast-200);
+  --ink: var(--contrast-1000);
+  --ink-soft: var(--contrast-700);
+  --ink-faint: var(--contrast-500);
+  --hover: rgba(0, 0, 0, 0.05);
+  --pressed: rgba(0, 0, 0, 0.09);
+  --selected: rgba(0, 106, 255, 0.12);
+  --focus-ring: var(--primary-500);
+}
+
+/* Dark is the dim ramp, which is what Kyron calls its dark theme: a true
+   black window is for an OLED phone in a dark room, not for a tool somebody
+   works in for an hour. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: var(--dim-0);
+    --surface: var(--dim-50);
+    --surface-raised: var(--dim-100);
+    --edge: var(--dim-100);
+    --edge-strong: var(--dim-200);
+    --ink: var(--dim-1000);
+    --ink-soft: var(--dim-700);
+    --ink-faint: var(--dim-400);
+    --hover: rgba(255, 255, 255, 0.06);
+    --pressed: rgba(255, 255, 255, 0.11);
+    --selected: rgba(0, 106, 255, 0.22);
+    --focus-ring: var(--primary-400);
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: var(--dim-0);
+  --surface: var(--dim-50);
+  --surface-raised: var(--dim-100);
+  --edge: var(--dim-100);
+  --edge-strong: var(--dim-200);
+  --ink: var(--dim-1000);
+  --ink-soft: var(--dim-700);
+  --ink-faint: var(--dim-400);
+  --hover: rgba(255, 255, 255, 0.06);
+  --pressed: rgba(255, 255, 255, 0.11);
+  --selected: rgba(0, 106, 255, 0.22);
+  --focus-ring: var(--primary-400);
+}
+
+/* The focus ring, which mobile does not have at all and desktop cannot do
+   without. One definition, so every control shows the same one. */
+:where(button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
