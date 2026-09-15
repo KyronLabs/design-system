@@ -13,6 +13,7 @@ void main() {
   _contrastTests();
   _rippleTests();
   _appBarTests();
+  _surfaceTests();
 
   group('KyronTheme', () {
     test('builds all three themes', () {
@@ -305,6 +306,85 @@ void _appBarTests() {
             reason: '$name left a surface tint on the bar');
         expect(scrolled.color, atRest,
             reason: '$name changed the bar colour on scroll');
+      });
+    }
+  });
+}
+
+/// A thing drawn on a surface is not the colour of that surface.
+///
+/// Material 3 has four container roles, and Flutter falls every one of them
+/// back to `surface` when a ColorScheme is built without them. This file did
+/// that, so every container in Kyron was drawn in exactly the colour of the
+/// page behind it -- 1.00:1. The interest chips, the other person's chat
+/// bubbles and the post analytics tiles were all invisible; their borders and
+/// their text were the only reason anybody could tell where they were.
+///
+/// The steps are meant to be quiet, so this asks for a floor rather than a
+/// ratio: enough to be seen, and each one above the last.
+void _surfaceTests() {
+  /// WCAG relative luminance.
+  double luminance(Color c) {
+    double channel(double v) => v <= 0.03928
+        ? v / 12.92
+        : math.pow((v + 0.055) / 1.055, 2.4).toDouble();
+    return 0.2126 * channel(c.r) +
+        0.7152 * channel(c.g) +
+        0.0722 * channel(c.b);
+  }
+
+  double contrast(Color a, Color b) {
+    final first = luminance(a), second = luminance(b);
+    return first > second
+        ? (first + 0.05) / (second + 0.05)
+        : (second + 0.05) / (first + 0.05);
+  }
+
+  group('surfaces', () {
+    for (final (name, theme) in [
+      ('light', KyronTheme.lightTheme),
+      ('dark', KyronTheme.darkTheme),
+      ('dim', KyronTheme.dimTheme),
+    ]) {
+      test('$name tells a container apart from the page under it', () {
+        final scheme = theme.colorScheme;
+        final roles = {
+          'surfaceContainerLow': scheme.surfaceContainerLow,
+          'surfaceContainer': scheme.surfaceContainer,
+          'surfaceContainerHigh': scheme.surfaceContainerHigh,
+          'surfaceContainerHighest': scheme.surfaceContainerHighest,
+          'primaryContainer': scheme.primaryContainer,
+        };
+
+        for (final entry in roles.entries) {
+          expect(
+            contrast(entry.value, scheme.surface),
+            greaterThan(1.02),
+            reason: '$name: ${entry.key} is the colour of the surface it is '
+                'drawn on, so anything using it is invisible',
+          );
+        }
+      });
+
+      test('$name steps up, rather than in circles', () {
+        final scheme = theme.colorScheme;
+        // Each step further from the surface than the one below it, which is
+        // what makes "high" and "highest" mean anything.
+        final ladder = [
+          scheme.surface,
+          scheme.surfaceContainerLow,
+          scheme.surfaceContainer,
+          scheme.surfaceContainerHigh,
+          scheme.surfaceContainerHighest,
+        ];
+        for (var i = 1; i < ladder.length; i++) {
+          expect(
+            contrast(ladder[i], scheme.surface),
+            greaterThan(contrast(ladder[i - 1], scheme.surface)),
+            reason: '$name: step $i is no further from the surface than the '
+                'step below it',
+          );
+        }
       });
     }
   });

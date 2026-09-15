@@ -104,12 +104,44 @@ class KyronTheme {
   static const lightBackgroundStart = Color(0xFFFFFFFF);
   static const lightBackgroundEnd = Color(0xFFF0F4F8);
   static const lightSurface = Color(0xFFF8FAFC);
+
+  /// What sits *on* a surface: a chip, a chat bubble, a tile.
+  ///
+  /// Material 3 has four of these roles and Flutter falls every one of them
+  /// back to `surface` when a ColorScheme is built without them -- which is
+  /// what this file did, so every container in Kyron was drawn in exactly the
+  /// colour of the page behind it, measured at 1.00:1. The interest chips,
+  /// the other person's chat bubbles and the post analytics tiles were all
+  /// invisible; only their borders and their text gave them away.
+  ///
+  /// The steps are slate, the family lightSurface already belongs to, and
+  /// they are deliberately quiet: 1.03, 1.05, 1.11 and 1.18 against the
+  /// surface. A container is meant to be found, not announced.
+  static const lightSurfaceLow = Color(0xFFF4F7FA);
+  static const lightSurfaceContainer = Color(0xFFF1F5F9);
+  static const lightSurfaceHigh = Color(0xFFEAEFF5);
+  static const lightSurfaceHighest = Color(0xFFE2E8F0);
   static const lightTextPrimary = Color(0xFF1A202C);
   static const lightTextSecondary = Color(0xFF718096);
 
   // Dark Theme Colors
   static const darkBackground = Color(0xFF0D0D0F);
   static const darkSurface = Color(0xFF1A1A1D);
+
+  /// The same four steps on the dark surface: 1.06, 1.11, 1.17 and 1.25.
+  /// The first is darkPillBg, which already existed for exactly this job.
+  static const darkSurfaceLow = Color(0xFF1F1F23);
+  static const darkSurfaceContainer = Color(0xFF232327);
+  static const darkSurfaceHigh = Color(0xFF27272C);
+  static const darkSurfaceHighest = Color(0xFF2C2C33);
+
+  /// And on dim, which is blue-grey rather than neutral: 1.08, 1.18, 1.27
+  /// and 1.34.
+  static const dimSurface = Color(0xFF1E2A38);
+  static const dimSurfaceLow = Color(0xFF22303F);
+  static const dimSurfaceContainer = Color(0xFF273647);
+  static const dimSurfaceHigh = Color(0xFF2B3B4D);
+  static const dimSurfaceHighest = Color(0xFF2F4053);
   static const darkTextPrimary = Color(0xFFE5EBF5);
   static const darkTextSecondary = Color(0xFF7E8A9A);
 
@@ -237,6 +269,14 @@ class KyronTheme {
         onSecondary: Colors.white,
         surface: lightSurface,
         onSurface: lightTextPrimary,
+        // The four container roles. Without them Flutter falls each one
+        // back to `surface`, and everything drawn as a container comes out
+        // the colour of the page behind it.
+        surfaceContainerLowest: lightSurfaceLow,
+        surfaceContainerLow: lightSurfaceLow,
+        surfaceContainer: lightSurfaceContainer,
+        surfaceContainerHigh: lightSurfaceHigh,
+        surfaceContainerHighest: lightSurfaceHighest,
         error: errorPink,
         onError: Colors.white,
         primaryContainer: lightPillBg,
@@ -392,6 +432,14 @@ class KyronTheme {
         onSecondary: Colors.white,
         surface: darkSurface,
         onSurface: darkTextPrimary,
+        // The four container roles. Without them Flutter falls each one
+        // back to `surface`, and everything drawn as a container comes out
+        // the colour of the page behind it.
+        surfaceContainerLowest: darkSurfaceLow,
+        surfaceContainerLow: darkSurfaceLow,
+        surfaceContainer: darkSurfaceContainer,
+        surfaceContainerHigh: darkSurfaceHigh,
+        surfaceContainerHighest: darkSurfaceHighest,
         error: errorPink,
         onError: Colors.white,
         primaryContainer: darkPillBg,
@@ -542,9 +590,21 @@ class KyronTheme {
         onSecondary: Colors.white,
         surface: dimContrast[50]!,
         onSurface: dimContrast[1000]!,
+        // The four container roles. Without them Flutter falls each one
+        // back to `surface`, and everything drawn as a container comes out
+        // the colour of the page behind it.
+        surfaceContainerLowest: dimSurfaceLow,
+        surfaceContainerLow: dimSurfaceLow,
+        surfaceContainer: dimSurfaceContainer,
+        surfaceContainerHigh: dimSurfaceHigh,
+        surfaceContainerHighest: dimSurfaceHighest,
         error: errorPink,
         onError: Colors.white,
-        primaryContainer: dimContrast[50]!,
+        // dimContrast[50] is `surface`, so this role was invisible too --
+        // a pill drawn in exactly the colour of the page it sits on. The
+        // light and dark themes each step their pill up by a little; this
+        // is the same step on dim.
+        primaryContainer: dimSurfaceLow,
         onPrimaryContainer: dimContrast[1000]!,
       ),
       textTheme: _baseTextTheme(dimContrast[1000]!, dimContrast[700]!),
