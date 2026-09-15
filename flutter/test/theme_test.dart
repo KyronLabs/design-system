@@ -12,6 +12,7 @@ import 'package:kyron_design_system/kyron_design_system.dart';
 void main() {
   _contrastTests();
   _rippleTests();
+  _appBarTests();
 
   group('KyronTheme', () {
     test('builds all three themes', () {
@@ -249,5 +250,62 @@ void _rippleTests() {
         await tester.pumpAndSettle();
       });
     });
+  });
+}
+
+/// An app bar stays the colour it is when the page moves under it.
+///
+/// `elevation: 0` does not say this. Material 3 keeps a second elevation for
+/// the scrolled-under state and washes the bar with `surfaceTint` at any
+/// elevation above zero -- so the bars went faintly blue the moment a list
+/// moved, and only then. That is the sort of thing nothing catches, because
+/// every screenshot is taken at the top of the page.
+void _appBarTests() {
+  group('the app bar under a scrolling page', () {
+    for (final (name, theme) in [
+      ('light', KyronTheme.lightTheme),
+      ('dark', KyronTheme.darkTheme),
+      ('dim', KyronTheme.dimTheme),
+    ]) {
+      testWidgets('$name does not tint', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: theme,
+            home: Scaffold(
+              appBar: AppBar(title: const Text('Kyron')),
+              body: ListView.builder(
+                itemCount: 60,
+                itemBuilder: (_, i) => SizedBox(height: 56, child: Text('$i')),
+              ),
+            ),
+          ),
+        );
+
+        Material barMaterial() => tester.widget<Material>(
+              find
+                  .descendant(
+                    of: find.byType(AppBar),
+                    matching: find.byType(Material),
+                  )
+                  .first,
+            );
+
+        final atRest = barMaterial().color;
+        expect(barMaterial().elevation, 0, reason: '$name was raised at rest');
+
+        // Far enough that the first rows are well past the bar.
+        await tester.drag(find.byType(ListView), const Offset(0, -400));
+        await tester.pumpAndSettle();
+
+        final scrolled = barMaterial();
+        expect(scrolled.elevation, 0,
+            reason: '$name raised the bar once the page scrolled under it, '
+                'which is what draws the tint');
+        expect(scrolled.surfaceTintColor, Colors.transparent,
+            reason: '$name left a surface tint on the bar');
+        expect(scrolled.color, atRest,
+            reason: '$name changed the bar colour on scroll');
+      });
+    }
   });
 }

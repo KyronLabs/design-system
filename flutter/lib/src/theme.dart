@@ -270,6 +270,21 @@ class KyronTheme {
       // therefore drops it, and every AppBar title in the app was being drawn
       // in whatever the platform handed back rather than in Kyron's type.
       appBarTheme: const AppBarTheme(
+        // Flat when it is scrolled under, too.
+        //
+        // `elevation: 0` alone is not flat. Material 3 gives an app bar a
+        // *second* elevation for when content has scrolled beneath it --
+        // `scrolledUnderElevation`, which defaults to 3 -- and at any
+        // elevation above zero it washes the bar with `surfaceTint`, which
+        // defaults to the primary colour. So every app bar in Kyron turned
+        // faintly blue the moment the page moved, and only then, which reads
+        // as a rendering fault rather than a state.
+        //
+        // Both are set: the elevation because that is what triggers it, and
+        // the tint to transparent because anything else that raises the bar
+        // would bring the wash back.
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleTextStyle: TextStyle(
@@ -404,6 +419,21 @@ class KyronTheme {
         hint: darkTextSecondary,
       ),
       appBarTheme: const AppBarTheme(
+        // Flat when it is scrolled under, too.
+        //
+        // `elevation: 0` alone is not flat. Material 3 gives an app bar a
+        // *second* elevation for when content has scrolled beneath it --
+        // `scrolledUnderElevation`, which defaults to 3 -- and at any
+        // elevation above zero it washes the bar with `surfaceTint`, which
+        // defaults to the primary colour. So every app bar in Kyron turned
+        // faintly blue the moment the page moved, and only then, which reads
+        // as a rendering fault rather than a state.
+        //
+        // Both are set: the elevation because that is what triggers it, and
+        // the tint to transparent because anything else that raises the bar
+        // would bring the wash back.
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleTextStyle: TextStyle(
@@ -539,6 +569,21 @@ class KyronTheme {
         hint: dimContrast[700]!,
       ),
       appBarTheme: AppBarTheme(
+        // Flat when it is scrolled under, too.
+        //
+        // `elevation: 0` alone is not flat. Material 3 gives an app bar a
+        // *second* elevation for when content has scrolled beneath it --
+        // `scrolledUnderElevation`, which defaults to 3 -- and at any
+        // elevation above zero it washes the bar with `surfaceTint`, which
+        // defaults to the primary colour. So every app bar in Kyron turned
+        // faintly blue the moment the page moved, and only then, which reads
+        // as a rendering fault rather than a state.
+        //
+        // Both are set: the elevation because that is what triggers it, and
+        // the tint to transparent because anything else that raises the bar
+        // would bring the wash back.
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleTextStyle: TextStyle(
