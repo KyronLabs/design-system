@@ -103,7 +103,17 @@ class KyronTheme {
   static const lightBackground = Color(0xFFFFFFFF);
   static const lightBackgroundStart = Color(0xFFFFFFFF);
   static const lightBackgroundEnd = Color(0xFFF0F4F8);
-  static const lightSurface = Color(0xFFF8FAFC);
+
+  /// The light page, and the same white the scaffold is.
+  ///
+  /// This was #F8FAFC, a second near-white 1.8 L\* from the first. Two
+  /// grounds that nobody can tell apart do no work and break the container
+  /// ramp: a chip at the intensity this design wants -- about 2.4 L\* down --
+  /// is clearly a chip on white and almost nothing on #F8FAFC, which is
+  /// exactly what the interest sheet looked like, chips at 1.02 against the
+  /// sheet under them. One ground, and the ramp below it means the same
+  /// thing everywhere.
+  static const lightSurface = Color(0xFFFFFFFF);
 
   /// What sits *on* a surface: a chip, a chat bubble, a tile.
   ///
@@ -114,13 +124,31 @@ class KyronTheme {
   /// the other person's chat bubbles and the post analytics tiles were all
   /// invisible; only their borders and their text gave them away.
   ///
-  /// The steps are slate, the family lightSurface already belongs to, and
-  /// they are deliberately quiet: 1.03, 1.05, 1.11 and 1.18 against the
-  /// surface. A container is meant to be found, not announced.
-  static const lightSurfaceLow = Color(0xFFF4F7FA);
-  static const lightSurfaceContainer = Color(0xFFF1F5F9);
-  static const lightSurfaceHigh = Color(0xFFEAEFF5);
-  static const lightSurfaceHighest = Color(0xFFE2E8F0);
+  /// **A ramp moves in lightness. Only in lightness.**
+  ///
+  /// The first version of this was a slate scale, and its hue got stronger
+  /// as it got darker -- 4 points of spread between its channels at the
+  /// bottom and 14 at the top. So every step up the ramp added *colour* as
+  /// well as shade, and the top of it read as a blue-grey panel rather than
+  /// as a slightly raised piece of the page. Each step here moves all three
+  /// channels by the same amount, so the hue at the top of the ramp is the
+  /// hue at the bottom of it: 2 points of spread, the whole way.
+  ///
+  /// Measured from white, which is what these actually sit on: the scaffold
+  /// is `lightBackgroundStart`, not `lightSurface`. In L\* -- which is what
+  /// the eye reads, unlike a contrast ratio -- the steps are 0.74, 1.43,
+  /// 2.47, 3.51 and 4.56 below it. `lightSurfaceContainer` is the one a
+  /// chat bubble wants, and it lands within 0.05 L\* of the reference this
+  /// was matched against.
+  ///
+  /// The previous top of the ramp was 8.24 L\* below white: three and a half
+  /// times this, in a colour of its own. A container is meant to be found,
+  /// not announced.
+  static const lightSurfaceLowest = Color(0xFFFCFDFE);
+  static const lightSurfaceLow = Color(0xFFFAFBFC);
+  static const lightSurfaceContainer = Color(0xFFF7F8F9);
+  static const lightSurfaceHigh = Color(0xFFF4F5F6);
+  static const lightSurfaceHighest = Color(0xFFF1F2F3);
   static const lightTextPrimary = Color(0xFF1A202C);
   static const lightTextSecondary = Color(0xFF718096);
 
@@ -128,20 +156,27 @@ class KyronTheme {
   static const darkBackground = Color(0xFF0D0D0F);
   static const darkSurface = Color(0xFF1A1A1D);
 
-  /// The same four steps on the dark surface: 1.06, 1.11, 1.17 and 1.25.
-  /// The first is darkPillBg, which already existed for exactly this job.
-  static const darkSurfaceLow = Color(0xFF1F1F23);
-  static const darkSurfaceContainer = Color(0xFF232327);
-  static const darkSurfaceHigh = Color(0xFF27272C);
-  static const darkSurfaceHighest = Color(0xFF2C2C33);
+  /// The same discipline on the dark surface: equal channel steps, so the
+  /// hue never drifts, and 1.50 / 2.49 / 3.96 / 5.41 / 6.37 L\* above it.
+  /// The old top was 8.88 above, which on a near-black page is a panel you
+  /// see before you see what is written on it.
+  static const darkSurfaceLowest = Color(0xFF1D1D20);
+  static const darkSurfaceLow = Color(0xFF1F1F22);
+  static const darkSurfaceContainer = Color(0xFF222225);
+  static const darkSurfaceHigh = Color(0xFF252528);
+  static const darkSurfaceHighest = Color(0xFF27272A);
 
-  /// And on dim, which is blue-grey rather than neutral: 1.08, 1.18, 1.27
-  /// and 1.34.
+  /// And on dim, which is blue-grey rather than neutral. The cast belongs to
+  /// the *surface* -- 26 points of spread -- and the ramp inherits it
+  /// unchanged instead of deepening it: the old one climbed to 36, so a
+  /// container on dim was bluer than the page it sat on as well as lighter.
+  /// 1.40 / 2.79 / 3.71 / 5.07 / 6.43 L\* above the surface, against 9.85.
   static const dimSurface = Color(0xFF1E2A38);
-  static const dimSurfaceLow = Color(0xFF22303F);
-  static const dimSurfaceContainer = Color(0xFF273647);
-  static const dimSurfaceHigh = Color(0xFF2B3B4D);
-  static const dimSurfaceHighest = Color(0xFF2F4053);
+  static const dimSurfaceLowest = Color(0xFF212D3B);
+  static const dimSurfaceLow = Color(0xFF24303E);
+  static const dimSurfaceContainer = Color(0xFF263240);
+  static const dimSurfaceHigh = Color(0xFF293543);
+  static const dimSurfaceHighest = Color(0xFF2C3846);
   static const darkTextPrimary = Color(0xFFE5EBF5);
   static const darkTextSecondary = Color(0xFF7E8A9A);
 
@@ -272,7 +307,7 @@ class KyronTheme {
         // The four container roles. Without them Flutter falls each one
         // back to `surface`, and everything drawn as a container comes out
         // the colour of the page behind it.
-        surfaceContainerLowest: lightSurfaceLow,
+        surfaceContainerLowest: lightSurfaceLowest,
         surfaceContainerLow: lightSurfaceLow,
         surfaceContainer: lightSurfaceContainer,
         surfaceContainerHigh: lightSurfaceHigh,
@@ -435,7 +470,7 @@ class KyronTheme {
         // The four container roles. Without them Flutter falls each one
         // back to `surface`, and everything drawn as a container comes out
         // the colour of the page behind it.
-        surfaceContainerLowest: darkSurfaceLow,
+        surfaceContainerLowest: darkSurfaceLowest,
         surfaceContainerLow: darkSurfaceLow,
         surfaceContainer: darkSurfaceContainer,
         surfaceContainerHigh: darkSurfaceHigh,
@@ -593,7 +628,7 @@ class KyronTheme {
         // The four container roles. Without them Flutter falls each one
         // back to `surface`, and everything drawn as a container comes out
         // the colour of the page behind it.
-        surfaceContainerLowest: dimSurfaceLow,
+        surfaceContainerLowest: dimSurfaceLowest,
         surfaceContainerLow: dimSurfaceLow,
         surfaceContainer: dimSurfaceContainer,
         surfaceContainerHigh: dimSurfaceHigh,

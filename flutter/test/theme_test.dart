@@ -340,6 +340,28 @@ void _surfaceTests() {
         : (second + 0.05) / (first + 0.05);
   }
 
+  /// CIE lightness, 0 (black) to 100 (white).
+  ///
+  /// A contrast ratio is the wrong instrument for this question. It is built
+  /// for legibility, it is nearly flat between two near-whites, and a pair of
+  /// colours at 1.18:1 can look like a faint wash or like a solid panel
+  /// depending where on the scale they sit. L\* is what the eye reads, and it
+  /// is what the steps below are stated in.
+  double lightness(Color c) {
+    final y = luminance(c);
+    return y > 0.008856 ? 116 * math.pow(y, 1 / 3).toDouble() - 16 : 903.3 * y;
+  }
+
+  /// How far apart two colours look, in L\*.
+  double step(Color a, Color b) => (lightness(a) - lightness(b)).abs();
+
+  /// How much colour of its own a value carries: the spread between its
+  /// strongest and weakest channel.
+  int huespread(Color c) {
+    final channels = [c.r, c.g, c.b].map((v) => (v * 255).round()).toList();
+    return channels.reduce(math.max) - channels.reduce(math.min);
+  }
+
   group('surfaces', () {
     for (final (name, theme) in [
       ('light', KyronTheme.lightTheme),
@@ -362,6 +384,65 @@ void _surfaceTests() {
             greaterThan(1.02),
             reason: '$name: ${entry.key} is the colour of the surface it is '
                 'drawn on, so anything using it is invisible',
+          );
+        }
+      });
+
+      test('$name does not shout', () {
+        // The floor above has a twin, and shipping without it is how the
+        // first version of this ramp went out. Told only "a container must
+        // be distinguishable", the ramp answered with a slate scale whose
+        // top sat 8.24 L* below white in a colour of its own -- three and a
+        // half times the reference this was matched to, and the reported
+        // complaint was not that it was invisible but that it was
+        // "so pronounced it's ridiculous".
+        //
+        // 7 L* is the ceiling: a container is a piece of the page held
+        // slightly forward, not a panel laid on top of it.
+        final scheme = theme.colorScheme;
+        final roles = {
+          'surfaceContainerLow': scheme.surfaceContainerLow,
+          'surfaceContainer': scheme.surfaceContainer,
+          'surfaceContainerHigh': scheme.surfaceContainerHigh,
+          'surfaceContainerHighest': scheme.surfaceContainerHighest,
+          'primaryContainer': scheme.primaryContainer,
+        };
+
+        for (final entry in roles.entries) {
+          expect(
+            step(entry.value, scheme.surface),
+            lessThan(7.0),
+            reason: '$name: ${entry.key} is '
+                '${step(entry.value, scheme.surface).toStringAsFixed(2)} L* '
+                'from its surface, which reads as a panel rather than as a '
+                'container',
+          );
+        }
+      });
+
+      test('$name keeps one hue the whole way up the ramp', () {
+        // The other half of what went wrong. The old light ramp spread its
+        // channels 4 points apart at the bottom and 14 at the top, so each
+        // step added *colour* as well as shade and the top of it was a
+        // blue-grey against a white page. Dim's climbed 26 -> 36.
+        //
+        // Whatever cast the surface has, the ramp carries it unchanged:
+        // a ramp moves in lightness, and only in lightness.
+        final scheme = theme.colorScheme;
+        final surfaceCast = huespread(scheme.surface);
+        for (final entry in {
+          'surfaceContainerLow': scheme.surfaceContainerLow,
+          'surfaceContainer': scheme.surfaceContainer,
+          'surfaceContainerHigh': scheme.surfaceContainerHigh,
+          'surfaceContainerHighest': scheme.surfaceContainerHighest,
+        }.entries) {
+          expect(
+            huespread(entry.value),
+            lessThanOrEqualTo(surfaceCast + 2),
+            reason: '$name: ${entry.key} carries '
+                '${huespread(entry.value)} points of its own colour against '
+                'the surface\'s $surfaceCast, so going up the ramp tints as '
+                'well as lightens',
           );
         }
       });
