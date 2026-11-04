@@ -138,6 +138,7 @@ We adopt **Bluesky's ALF (Application Layout Framework)** as our design foundati
 - No elevated cards
 - No shadows for separation
 - 1px `border_contrast_low` hairlines run full-bleed
+- Solid closes a block; dotted divides inside one (`frontend/components/dividers.md`)
 - Separation through lines, not depth
 
 ### Button System
