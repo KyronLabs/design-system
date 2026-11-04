@@ -34,6 +34,8 @@ This principle guides all interaction design: user actions should feel **instant
 - **Hairlines run full-bleed**, edge to edge
 - **Backgrounds are flat colors**, not gradients or textures
 - **Content sits directly on the page**, not in floating cards
+- **Two lines, two meanings:** a solid hairline closes a block, and a dotted
+  one divides inside it. See [components/dividers.md](components/dividers.md).
 
 **Why?**
 - Cleaner, more modern appearance
