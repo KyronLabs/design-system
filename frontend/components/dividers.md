@@ -1,4 +1,4 @@
-# Dividers: solid and dotted
+# Dividers: solid and broken
 
 Kyron separates with lines, not shadows ([philosophy.md](../philosophy.md),
 pillar 1). It has two lines, and each says something different. Using the wrong
@@ -6,21 +6,21 @@ one is a bug, the same as using the wrong colour.
 
 ## The rule
 
-**Solid closes. Dotted divides.**
+**Solid closes. Broken divides.**
 
 | Line | Says | Use it for |
 |---|---|---|
 | **Solid hairline** | "Something else starts here." | The edge of a block: a header and what it heads, one post and the next, the end of a post and the start of its comments, one conversation and the next. |
-| **Dotted hairline** | "Same thing, next part." | A division *inside* one block, between two parts of the same thing. For example, a post's spelled-out counts ("6 likes · 2 reposts") and its row of action buttons. |
+| **Broken hairline** | "Same thing, next part." | A division *inside* one block, between two parts of the same thing. For example, a post's spelled-out counts ("6 likes · 2 reposts") and its row of action buttons. |
 
 Two checks follow from this:
 
-1. **A dotted line always sits inside a block.** Somewhere above it and
+1. **A broken line always sits inside a block.** Somewhere above it and
    somewhere below it there is a solid line, or the edge of the screen,
-   closing that block. A dotted line at the edge of a block is a solid line
+   closing that block. A broken line at the edge of a block is a solid line
    drawn wrong.
 2. **Never put two solid lines inside one block.** If a block needs dividing
-   twice, both inner lines are dotted. Three solid lines through one post cut
+   twice, both inner lines are broken. Three solid lines through one post cut
    it into slabs that read as three different things.
 
 ### Example: a post's own page
@@ -31,7 +31,7 @@ Two checks follow from this:
  8:53 PM · 2 Nov 2026
 ──────────────────────────────────────────────────  solid: the post's body ends
  2 reposts   6 likes   7 replies   6 gifts
-··················································  dotted: same block, next part
+- - - - - - - - - - - - - - - - - - - - - - - - -   broken: same block, next part
  💬   🔁   ♡                               ⊞   ⇪
 ──────────────────────────────────────────────────  solid: the post ends
  7 COMMENTS
@@ -40,7 +40,7 @@ Two checks follow from this:
 The counts and the buttons are one block: what has happened to this post, and
 what you can do to it. A solid line between them used to split the post into
 three pieces. When a post has no counts there is nothing to divide, so the
-buttons sit between two solid lines and the dotted line is not drawn at all.
+buttons sit between two solid lines and the broken line is not drawn at all.
 
 ### What is not a divider
 
@@ -54,28 +54,39 @@ buttons sit between two solid lines and the dotted line is not drawn at all.
 
 ## Geometry
 
-### Solid hairline
+There is one hairline. It is the line that sits above the reply box, between
+posts, and around every card drawn inside a post. Every divider in the app is
+this line, either whole or broken. A heavier line is not a stronger hairline.
+It is a bug.
 
-- **Weight:** one *device* pixel (`1 / devicePixelRatio`), not 0.5 logical. A
-  0.5 line on a 3× screen is 1.5 device pixels: drawn as two soft rows, it
-  comes out heavier than a hairline.
-- **Colour:** `outline` at 22% alpha.
-- **Width:** full-bleed between sections. Inside a post it spans the post's
-  content inset, the same as the text.
+### The hairline (solid)
 
-### Dotted hairline
+| | |
+|---|---|
+| **Weight** | **0.5pt** (half a logical point) |
+| **Colour** | `outline` at **15%** alpha |
+| **Width** | Full-bleed between sections. Inside a post it spans the post's content inset, the same as the text. |
 
-- **Round dots, not dashes.** At this weight a dash reads as a broken solid
-  line.
-- **Dot:** 1pt across. A device-pixel dot disappears on a 3× screen.
-- **Pitch:** 4pt from one dot's centre to the next, so the dots are further
-  apart than they are wide.
-- **Colour:** `outline` at 50% alpha. The dots cover a quarter of the length,
-  so at the solid line's 22% they all but vanish. At 50% the dotted line
-  reads *lighter* than the solid one, which is what a subordinate division
-  should do.
-- **Centred:** the run of dots is centred on its width, so it starts and ends
-  the same distance in from both edges and never ends on part of a dot.
+Light enough to sit under the content rather than on it. An earlier line, one
+device pixel at `outline` 22%, came out darker and read as a bar on a post's
+page. Do not use it for new work.
+
+### The broken hairline
+
+The same line with gaps in it: the same weight and the same colour. It is the
+hairline saying less, not a different line.
+
+| | |
+|---|---|
+| **Weight** | **0.5pt**, as the solid line |
+| **Colour** | `outline` at **15%**, as the solid line |
+| **Dash** | **4pt** |
+| **Gap** | **3pt** |
+| **Ends** | Whole dashes only, centred on the line's width, so it starts and ends the same distance in from both edges and never ends on a stub. |
+
+The dashes are longer than the gaps, so it still reads as a line rather than a
+row of specks. Round dots were tried and rejected: at this weight they read as
+dust, not as a division.
 
 ### Spacing
 
@@ -88,8 +99,9 @@ underlining it.
 In the app (`app/lib/widgets/hairline.dart`):
 
 ```dart
-const Hairline();        // solid: closes
-const DottedHairline();  // dotted: divides
+const RuleLine();        // solid: closes
+const BrokenRuleLine();  // broken: divides
+// As a border, for a box's edge: Border(top: postRule(scheme))
 ```
 
 Do not draw a `Divider`, a `Container(height: 0.5)` or a dashed `Border`
