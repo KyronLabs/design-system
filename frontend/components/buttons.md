@@ -14,15 +14,54 @@ Kyron's button system follows **Bluesky's pill-shaped button design** with consi
 
 ---
 
+## 📏 The one height: the login button
+
+**The login button is the button.** Its dimensions are the reference every
+other button is measured against, and nothing in Kyron is taller:
+
+| | Height | Shape | Label | Side padding |
+|---|---|---|---|---|
+| **Full width** — the login button, and every button that spans a form or a sheet | **40** (`KyronTheme.buttonHeight`) | stadium | 15, Medium (500) | 24 |
+| **In a row** — Follow, Edit profile, Save beside a title | **40** | stadium | 14, Semibold (600) | 20 (16 before an icon) |
+| **Compact** — beside a name, inside a row of content | **32** (`ActionButton.compactHeight`) | stadium | 13, Semibold (600) | 14 (10 before an icon) |
+
+There is no 48. The table below once gave "Large" a 48px minimum, taken
+from Bluesky; the Flutter theme had already settled on 40, but anything
+built from this page came out 8 points taller than the login button --
+first the auth screens (fixed in `AppButton`), then every full-width
+`ActionButton` in the app, which read as heavier than the button they were
+meant to match. Twice is a rule, so it is written here, first.
+
+**In the app, never set a button's height yourself.** Use the widgets that
+carry these numbers:
+
+- `AppButton` — the auth forms' full-width button (it *is* the login button).
+- `ActionButton(expand: true)` — every other full-width button.
+- `ActionButton()` and `ActionButton(compact: true)` — buttons in a row.
+
+A `minimumSize`, `fixedSize` or `Size.fromHeight(...)` with a number in it
+on a button is the drift this section exists to stop. The app checks both
+ways (`app/test/design_system_test.dart`, "no button sets its own height";
+`app/test/button_height_test.dart`, which measures every kind as drawn
+against the login button), so it fails CI rather than reaching a phone.
+
+The visible pill is 40; the tap target can be larger (Material pads it to
+48 where there is room), which is what the 44-point touch-target rule asks
+for. That padding is invisible and is not the button's height.
+
+---
+
 ## 📐 Button Geometry
 
-From Bluesky's `Button.tsx`:
+Originally from Bluesky's `Button.tsx`, **corrected to Kyron's heights
+above** — where this table and "The one height" ever disagree, "The one
+height" is right:
 
 | Size | Padding V | Padding H | Gap | Text Size | Text Weight | Min Height |
 |------|-----------|-----------|-----|-----------|-------------|------------|
-| Large | 12 | 24 | 6 | 15 | Medium (500) | 48px |
-| Small | 8 | 14 | 5 | 13.1 | Medium (500) | 40px |
-| Tiny | 5 | 10 | 3 | 11.3 | Semibold (600) | 32px |
+| Large (full width) | 10 | 24 | 6 | 15 | Medium (500) | 40px |
+| Small (in a row) | 8 | 20 | 5 | 14 | Semibold (600) | 40px |
+| Tiny (compact) | 5 | 14 | 3 | 13 | Semibold (600) | 32px |
 
 ### Flutter Implementation
 
@@ -45,29 +84,30 @@ class ButtonSize {
     required this.minHeight,
   });
   
+  // The login button: see "The one height". Not 48.
   static const large = ButtonSize(
-    paddingVertical: 12,
+    paddingVertical: 10,
     paddingHorizontal: 24,
     gap: 6,
     fontSize: 15,
     fontWeight: FontWeight.w500,
-    minHeight: 48,
+    minHeight: 40,
   );
   
   static const small = ButtonSize(
     paddingVertical: 8,
-    paddingHorizontal: 14,
+    paddingHorizontal: 20,
     gap: 5,
-    fontSize: 13.1,
-    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
     minHeight: 40,
   );
   
   static const tiny = ButtonSize(
     paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 14,
     gap: 3,
-    fontSize: 11.3,
+    fontSize: 13,
     fontWeight: FontWeight.w600,
     minHeight: 32,
   );
@@ -523,9 +563,10 @@ ButtonSize get adaptiveButtonSize(BuildContext context) {
 
 All buttons meet **minimum 44×44 touch target** requirements:
 
-- **Large**: 48px minimum height, ample padding
-- **Small**: 40px minimum height (close to 44px)
-- **Tiny**: 32px minimum height (**needs padding**)
+- **Large** (full width): 40px drawn, the login button; its tap target is
+  padded to 48 where there is room
+- **Small** (in a row): 40px drawn (close to 44px)
+- **Tiny** (compact): 32px drawn (**needs padding**)
 
 **For Tiny buttons, add padding:**
 
@@ -616,26 +657,26 @@ For programmatic access:
   "buttons": {
     "sizes": {
       "large": {
-        "paddingVertical": 12,
+        "paddingVertical": 10,
         "paddingHorizontal": 24,
         "gap": 6,
         "fontSize": 15,
         "fontWeight": "medium",
-        "minHeight": 48
+        "minHeight": 40
       },
       "small": {
         "paddingVertical": 8,
-        "paddingHorizontal": 14,
+        "paddingHorizontal": 20,
         "gap": 5,
-        "fontSize": 13.1,
-        "fontWeight": "medium",
+        "fontSize": 14,
+        "fontWeight": "semibold",
         "minHeight": 40
       },
       "tiny": {
         "paddingVertical": 5,
-        "paddingHorizontal": 10,
+        "paddingHorizontal": 14,
         "gap": 3,
-        "fontSize": 11.3,
+        "fontSize": 13,
         "fontWeight": "semibold",
         "minHeight": 32
       }
